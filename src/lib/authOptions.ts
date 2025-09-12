@@ -2,9 +2,11 @@
 import bcrypt from "bcryptjs";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { NextAuthOptions, User } from "next-auth";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from "./prisma";
 
 export const authOptions: NextAuthOptions = {
+  adapter: PrismaAdapter(prisma), 
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -32,7 +34,6 @@ export const authOptions: NextAuthOptions = {
             "Vous n'êtes pas l'administrateur, veuillez contacter un administrateur"
           );
 
-        // ✅ On retourne bien un `User` typé
         const customUser: User = {
           id: user.id.toString(),
           name: user.name ?? undefined,
