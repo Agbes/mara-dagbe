@@ -1,5 +1,5 @@
-import SidebarRituelLayout from "@/components/BlogClient/SidebarRituelLayout";
 import { PageEntity } from "../../../types/page-type";
+import SidebarRituelLayout from "../BlogClient/SidebarRituelLayout";
 
 
 interface BlogLayoutProps {
