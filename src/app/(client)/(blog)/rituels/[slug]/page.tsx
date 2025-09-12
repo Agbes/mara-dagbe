@@ -52,8 +52,8 @@ export async function generateMetadata({ params }: Props) {
 
     if (!article) {
         return generateStaticMetadata({
-            title: "Article non trouvé",
-            description: "Cet article n’existe pas.",
+            title: "Découvrez: Rituels populaires & Marabout Dagbe",
+            description: "Explorez nos autres rituels et conseils du marabout Dagbe pour trouver des solutions immédiatement",
         });
     }
 

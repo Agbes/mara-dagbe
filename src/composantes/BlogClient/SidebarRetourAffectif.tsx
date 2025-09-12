@@ -30,7 +30,7 @@ export default async function SidebarRituel({
   return (
     <aside className="space-y-8">
       {/* À propos */}
-      <div className="bg-gradient-to-r from-cyan-900 to-cyan-700 text-white rounded-2xl shadow-md p-6">
+      <div className="bg-brand-900 text-white rounded-2xl shadow-md p-6">
         <h3 className="text-lg font-bold mb-3">À propos du Maître</h3>
         <p className="text-white/90 text-sm leading-relaxed">
           Maître Ali Moussa est un praticien spirituel reconnu avec plus de 20
@@ -41,7 +41,7 @@ export default async function SidebarRituel({
 
       {/* Articles récents */}
       <div className="bg-white rounded-2xl shadow-md p-6">
-        <h3 className="text-lg font-bold mb-4">Articles récents</h3>
+        <h3 className="text-lg font-bold text-emerald-500 mb-4">Articles récents</h3>
         <ul className="space-y-3">
           {articles.map((a) => (
             <li key={a.slug} className="flex items-center gap-3">
@@ -65,7 +65,7 @@ export default async function SidebarRituel({
 
       {/* Catégories */}
       <div className="bg-white rounded-2xl shadow-md p-6">
-        <h3 className="text-lg font-bold mb-4">Catégories</h3>
+        <h3 className="text-lg font-bold text-emerald-500 mb-4">Catégories</h3>
         <ul className="space-y-2">
           {categories.map((cat) => (
             <li key={cat.slug}>
@@ -82,7 +82,7 @@ export default async function SidebarRituel({
 
       {/* Tags */}
       <div className="bg-white rounded-2xl shadow-md p-6">
-        <h3 className="text-lg font-bold mb-4">Tags populaires</h3>
+        <h3 className="text-lg font-bold text-emerald-500 mb-4">Tags populaires</h3>
         <div className="flex flex-wrap gap-2">
           {tags.map((tag) => (
             <Link

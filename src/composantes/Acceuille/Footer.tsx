@@ -10,7 +10,7 @@ export default function Footer() {
           {/* Logo + description */}
           <div>
             <Link href="#accueil" className="flex items-center gap-2">
-              <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-amber-500 text-white shadow-lg">
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-brand-600 text-white shadow-lg">
                 🧘‍♂️
               </span>
               <span className="font-display text-lg tracking-wide font-bold text-emerald-600">

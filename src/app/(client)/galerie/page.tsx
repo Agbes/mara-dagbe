@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 import { generateJSONLD, generateStaticMetadata } from "@/lib/seo";
 import { seoGalerie } from "@/data/seoData";
 import BlogLayout from "@/composantes/Admin/BlogLayout";
-
+import { redirect } from "next/navigation";
 
 export const metadata = generateStaticMetadata(seoGalerie);
 
@@ -18,7 +18,9 @@ export default async function GaleriPage() {
   // 🔹 Tous les articles déjà mappés en ArticleDTO
   const articles = await getAllArticles();
 
-  if (!articles || articles.length === 0) throw new Error("Aucun article trouvé");
+  if (!articles || articles.length === 0){
+        redirect("/rituels");
+  };
 
   // 🔹 Construire la liste de toutes les images
   const allImages = articles.flatMap((article) => {

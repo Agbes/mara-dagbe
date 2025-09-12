@@ -2,7 +2,7 @@ export const navLinks = [
   { href: "/rituels", label: "Rituels" },
   { href: "/rituels-de-retour-affectif", label: "Retour Affectif" },
   { href: "/rituels-de-richesse", label: "Richesse" },
-  { href: "/rituels-envoutement", label: "Envoutement" },
+  { href: "/rituels-envoutements", label: "Envoutement" },
   { href: "/affaire-de-justice", label: "Affaire de Justice" },
   { href: "/galerie", label: "Galerie" },
 ];

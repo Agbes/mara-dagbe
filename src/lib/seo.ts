@@ -205,66 +205,69 @@ export function seoPropsFromArticle(article: ArticleWithRelations): SEOProps {
   };
 }
 
-// ----------------------------
-// SEO Props depuis un tag
-// ----------------------------
-export async function seoPropsFromTagDynamic(tagSlug: string): Promise<SEOProps> {
-  const tag = await prisma.tag.findUnique({ where: { slug: tagSlug } });
-  if (!tag) {
+type SEOSource = { id: number; name: string; slug: string };
+type SEOType = "category" | "tag";
+
+async function seoPropsFromSource(
+  sourceSlug: string,
+  type: SEOType
+): Promise<SEOProps> {
+  // Récupération de la source (catégorie ou tag)
+  const source: SEOSource | null =
+    type === "category"
+      ? await prisma.category.findUnique({ where: { slug: sourceSlug } })
+      : await prisma.tag.findUnique({ where: { slug: sourceSlug } });
+
+  if (!source) {
+    const label = type === "category" ? "Catégorie" : "Tag";
     return {
-      title: `Tag non trouvé`,
-      description: `Ce tag n’existe pas`,
-      path: `/tag/${tagSlug}`,
+      title: `${label} "${sourceSlug}" | Découvrez nos rituels populaires`,
+      description: `${label} "${sourceSlug}" du marabout Dagbe. Explorez nos rituels les plus populaires pour trouver des solutions immédiatement.`,
+      path: `/${type}/${sourceSlug}`,
     };
   }
 
+  // Récupération des articles associés
   const articles = await prisma.article.findMany({
-    where: { tagsArticles: { some: { tagId: tag.id } } },
+    where:
+      type === "category"
+        ? { categoryId: source.id }
+        : { tagsArticles: { some: { tagId: source.id } } },
     include: { tagsArticles: { select: { tag: { select: { name: true } } } } },
   });
 
-  const allTags = Array.from(new Set(articles.flatMap(a => a.tagsArticles.map(t => t.tag.name))));
+  const allTags = Array.from(
+    new Set(articles.flatMap((a) => a.tagsArticles.map((t) => t.tag.name)))
+  );
+  const topTags = allTags.slice(0, 5).join(", ");
+
+  const contentType = articles.length > 5 ? "Rituels mystérieux" : "Rituels exclusifs";
+  const currentYear = new Date().getFullYear();
+
+  const title = `${contentType} sur "${source.name}" (${currentYear}) | ${topTags}`;
+  const description = `Découvrez ${articles.length} ${
+    articles.length > 1 ? "rituels" : "rituel"
+  } ${type === "category" ? "dans la catégorie" : "liés au tag"} "${
+    source.name
+  }", incluant ${topTags}. Restez informé et enrichissez vos connaissances en ${source.name} cette année !`;
 
   return {
-    title: `Articles sur ${tag.name}`,
-    description: `Tous les articles liés au tag "${tag.name}"`,
-    path: `/tag/${tag.slug}`,
+    title,
+    description,
+    path: `/${type}/${source.slug}`,
     tags: allTags,
+    section: source.name,
     type: "Article",
     other: { "google-site-verification": process.env.NEXT_PUBLIC_GOOGLE_CONSOLE || "" },
   };
 }
 
-// ----------------------------
-// SEO Props depuis une catégorie
-// ----------------------------
-export async function seoPropsFromCategoryDynamic(categorySlug: string): Promise<SEOProps> {
-  const category = await prisma.category.findUnique({ where: { slug: categorySlug } });
-  if (!category) {
-    return {
-      title: `Catégorie non trouvée`,
-      description: `Cette catégorie n’existe pas`,
-      path: `/categorie/${categorySlug}`,
-    };
-  }
+// --- Fonctions spécifiques (simple wrapper) ---
+export const seoPropsFromCategoryDynamic = (slug: string) => seoPropsFromSource(slug, "category");
 
-  const articles = await prisma.article.findMany({
-    where: { categoryId: category.id },
-    include: { tagsArticles: { select: { tag: { select: { name: true } } } } },
-  });
+export const seoPropsFromTagDynamic = (slug: string) => seoPropsFromSource(slug, "tag");
 
-  const allTags = Array.from(new Set(articles.flatMap(a => a.tagsArticles.map(t => t.tag.name))));
 
-  return {
-    title: `Articles dans la catégorie ${category.name}`,
-    description: `Tous les articles de la catégorie "${category.name}"`,
-    path: `/categorie/${category.slug}`,
-    tags: allTags,
-    section: category.name,
-    type: "Article",
-    other: { "google-site-verification": process.env.NEXT_PUBLIC_GOOGLE_CONSOLE || "" },
-  };
-}
 
 // ----------------------------
 // Génération dynamique Next.js
