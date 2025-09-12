@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import RegisterForm from "@/composantes/RegisterForm";
+import LoginForm from "./LoginForm";
 
-export default function RegisterPage() {
+export default function LoginFormWrapper() {
   return (
     <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-50 via-white to-red-100 px-4">
       <div className="text-center absolute top-10">
@@ -10,11 +10,11 @@ export default function RegisterPage() {
           Bienvenue chez <span className="text-red-600">Médium Ali Moussa</span>
         </h1>
         <p className="mt-2 text-gray-600">
-          Créez votre compte pour accéder à votre espace sécurisé
+          Connectez-vous pour accéder à votre espace sécurisé
         </p>
       </div>
 
-      <RegisterForm />
+      <LoginForm />
     </section>
   );
 }

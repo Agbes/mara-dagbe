@@ -1,6 +1,6 @@
 // /app/login/page.tsx
+import LoginFormWrapper from "@/composantes/LoginFormWrapper"
 import { Suspense } from "react"
-import LoginFormWrapper from "@/components/LoginFormWrapper"
 
 export default function LoginPage() {
   return (

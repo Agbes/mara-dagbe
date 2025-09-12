@@ -1,6 +1,6 @@
 // /app/verify-email/page.tsx
+import VerifyEmailPage from "@/composantes/VerifyEmailPage"
 import { Suspense } from "react"
-import VerifyEmailPage from "@/components/VerifyEmailPage"
 
 export default function VerifyEmail() {
   return (
