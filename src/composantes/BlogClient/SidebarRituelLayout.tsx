@@ -1,9 +1,9 @@
 // app/rituels/BlogLayout.tsx
 import React from "react";
-import SidebarRituel from "@/components/BlogClient/SidebarRetourAffectif";
 import { getArticles } from "@/lib/getArticles";
 import prisma from "@/lib/prisma";
 import { ArticleSidebarDTO } from "../../../types/articles-tytp";
+import SidebarRituel from "./SidebarRetourAffectif";
 
 
 export const revalidate = 120;
