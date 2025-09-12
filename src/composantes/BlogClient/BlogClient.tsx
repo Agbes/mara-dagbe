@@ -1,8 +1,8 @@
 "use client";
 
 import { ArticleDTO } from "../../../types/articles-tytp";
-import ArticleCard from "@/components/BlogClient/ArticleCard";
 import { ReactNode } from "react";
+import ArticleCard from "./ArticleCard";
 
 type Props = {
     content: {
