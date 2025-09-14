@@ -145,29 +145,36 @@ export default async function ArticlePage({ params }: Props) {
                     {/* Sections */}
                     <div className="space-y-16">
                         {article.content.sections.map((section, index) => (
-                            <div
-                                key={index}
-                                className="grid md:grid-cols-2 gap-8 items-center"
+                            <Link
+                                href="https://wa.me/2290152027185" // 
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="block" 
                             >
-                                {/* Image */}
-                                <div className={`${index % 2 === 1 ? "md:order-2" : "md:order-1"}`}>
-                                    <Image
-                                        src={section.image?.url ?? "/default-cover.jpg"} // ✅ prendre la propriété url
-                                        alt={section.subtitle}
-                                        width={600}
-                                        height={400}
-                                        className="w-full h-64 object-cover rounded-2xl shadow-md"
-                                    />
-                                </div>
+                                <div
+                                    key={index}
+                                    className="grid md:grid-cols-2 gap-8 items-center"
+                                >
+                                    {/* Image */}
+                                    <div className={`${index % 2 === 1 ? "md:order-2" : "md:order-1"}`}>
+                                        <Image
+                                            src={section.image?.url ?? "/default-cover.jpg"} // ✅ prendre la propriété url
+                                            alt={section.subtitle}
+                                            width={600}
+                                            height={400}
+                                            className="w-full h-64 object-cover rounded-2xl shadow-md"
+                                        />
+                                    </div>
 
-                                {/* Texte */}
-                                <div className={`${index % 2 === 1 ? "md:order-1" : "md:order-2"}`}>
-                                    <h2 className="text-2xl font-bold text-cyan-700 mb-4">
-                                        {section.subtitle}
-                                    </h2>
-                                    <p className="text-slate-700 leading-relaxed">{section.text}</p>
+                                    {/* Texte */}
+                                    <div className={`${index % 2 === 1 ? "md:order-1" : "md:order-2"}`}>
+                                        <h2 className="text-2xl font-bold text-cyan-700 mb-4">
+                                            {section.subtitle}
+                                        </h2>
+                                        <p className="text-slate-700 leading-relaxed">{section.text}</p>
+                                    </div>
                                 </div>
-                            </div>
+                            </Link>
                         ))}
                     </div>
 
