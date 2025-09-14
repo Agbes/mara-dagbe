@@ -19,7 +19,7 @@ type Props = {
 };
 
 export async function generateStaticParams() {
-  return await getAllTagSlug();
+    return await getAllTagSlug();
 }
 
 
@@ -105,12 +105,13 @@ export default async function TagPage({ params }: Props) {
                                 >
                                     {article.coverImage && (
                                         <Image
-                                            src={article.coverImage}
+                                            src={article.coverImage?.url ?? "/default-cover.jpg"} // utiliser .url
                                             alt={article.title}
                                             className="w-full h-48 object-cover"
                                             width={400}
                                             height={192}
                                         />
+
                                     )}
                                     <div className="p-4">
                                         <h2 className="text-xl font-semibold mb-2">{article.title}</h2>
@@ -134,12 +135,13 @@ export default async function TagPage({ params }: Props) {
                                     className="block bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden"
                                 >
                                     <Image
-                                        src={a.coverImage ?? "/default-cover.jpg"}
+                                        src={a.coverImage?.url ?? "/default-cover.jpg"} // utiliser .url
                                         alt={a.title}
                                         width={400}
                                         height={250}
                                         className="w-full h-40 object-cover"
                                     />
+
                                     <div className="p-4">
                                         <h4 className="text-lg font-semibold text-slate-800 mb-2">{a.title}</h4>
                                         <p className="text-sm text-slate-600">{a.description}</p>
