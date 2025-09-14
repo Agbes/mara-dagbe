@@ -1,5 +1,5 @@
 import { Pencil, Trash2, Eye } from "lucide-react";
-import { ArticleDTO } from "../../../../types/articles-tytp";
+import { ArticleDTO } from "../../../../types/articles-type";
 
 import { Column } from "./DataTable";
 import Image from "next/image";

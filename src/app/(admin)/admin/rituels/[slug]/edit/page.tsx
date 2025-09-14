@@ -1,7 +1,7 @@
 import prisma from "@/lib/prisma";
 import { notFound } from "next/navigation";
-import { ArticleContent, ArticleDTO } from "../../../../../../../types/articles-tytp";
 import EditArticlePage from "@/composantes/Admin/articles/edit/EditArticlePage";
+import { ArticleContent, ArticleDTO } from "../../../../../../../types/articles-type";
 
 type Props = {
   params: Promise<{ slug: string }>; // params est une Promise
@@ -37,11 +37,11 @@ export default async function Page({ params }: Props) {
     description: article.description,
     metaDescription: article.metaDescription,
     metaTitre: article.metaTitre,
-    coverImage: article.coverImage ?? null,
+    coverImage: article.coverImage as { url: string; publicId: string } | null,
     conclusion: article.conclusion ?? "",
     categoryId: article.categoryId,
     category: article.category?.name ?? "",
-    tags: article.tagsArticles?.map((ta) => ta.tag.name) ?? [], // ✅ flatten des tags
+    tags: article.tagsArticles?.map((ta) => ta.tag.name) ?? [],
     published: article.published,
     publishedAt: article.publishedAt ? article.publishedAt.toISOString() : null,
     content: article.content as ArticleContent,

@@ -1,5 +1,5 @@
 
-import { ArticleDTO, ArticleWithRelations, mapArticle } from "../../../../../types/articles-tytp";
+import { ArticleDTO, ArticleWithRelations, mapArticle } from "../../../../../types/articles-type";
 import prisma from "@/lib/prisma";
 
 import { content } from "@/lib/getContentPage";

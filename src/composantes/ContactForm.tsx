@@ -55,7 +55,7 @@ export default function ContactClient() {
           Contactez-moi directement
         </h1>
         <p className="text-lg text-slate-600 max-w-2xl mx-auto animate-fadeIn delay-150">
-          Je suis <strong>Maître Ali Moussa</strong>, grand voyant et médium
+          Je suis <strong>Marabout Dagbe</strong>, grand voyant et médium
           traditionnel. Écrivez-moi dès aujourd’hui, votre demande restera
           strictement confidentielle.
         </p>
@@ -96,7 +96,7 @@ export default function ContactClient() {
               value={form.email}
               onChange={handleChange}
               required
-              placeholder="mediumalimoussa@gmail.com"
+              placeholder="professeurdagbe@gmail.com"
               className="border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-cyan-500 focus:outline-none transition transform duration-200 hover:scale-105"
             />
           </div>
@@ -151,11 +151,11 @@ export default function ContactClient() {
             <ul className="space-y-4 text-slate-700">
               <li className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-cyan-700" />
-                <span>+2290168379977</span>
+                <span>+2290152027185</span>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-cyan-700" />
-                <span>mediumalimoussa@gmail.com</span>
+                <span>professeurdagbe@gmail.com</span>
               </li>
               <li className="flex items-center gap-3">
                 <MapPin className="w-5 h-5 text-cyan-700" />
@@ -172,7 +172,7 @@ export default function ContactClient() {
               Je suis disponible à tout moment pour vous apporter une réponse rapide.
             </p>
             <Link
-              href="https://wa.me/2290168379977"
+              href="https://wa.me/2290152027185"
               target="_blank"
               className="inline-block bg-white text-green-600 font-bold px-6 py-3 rounded-full hover:bg-slate-100 transition"
             >

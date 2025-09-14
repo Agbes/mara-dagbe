@@ -38,7 +38,7 @@ export default async function EnvoutementPage() {
               {category.articles.map((article) => (
                 <Link key={article.id} href={`/rituels/${article.slug}`} className="block bg-white rounded-lg shadow hover:shadow-md transition overflow-hidden">
                   {article.coverImage && (
-                    <Image src={article.coverImage} alt={article.title} width={400} height={192} className="w-full h-48 object-cover" />
+                    <Image src={article.coverImage.url} alt={article.title} width={400} height={192} className="w-full h-48 object-cover" />
                   )}
                   <div className="p-4">
                     <h2 className="text-xl font-semibold mb-2">{article.title}</h2>
@@ -55,7 +55,7 @@ export default async function EnvoutementPage() {
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {articlesAll.map((a) => (
                 <Link key={a.slug} href={`/rituels/${a.slug}`} className="block bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden">
-                  <Image src={a.coverImage ?? "/default-cover.jpg"} alt={a.title} width={400} height={250} className="w-full h-40 object-cover" />
+                  <Image src={a.coverImage?.url ?? "/default-cover.jpg"} alt={a.title} width={400} height={250} className="w-full h-40 object-cover" />
                   <div className="p-4">
                     <h4 className="text-lg font-semibold text-slate-800 mb-2">{a.title}</h4>
                     <p className="text-sm text-slate-600">{a.description}</p>

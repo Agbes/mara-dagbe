@@ -2,7 +2,7 @@
 import React from "react";
 import { getArticles } from "@/lib/getArticles";
 import prisma from "@/lib/prisma";
-import { ArticleSidebarDTO } from "../../../types/articles-tytp";
+import { ArticleSidebarDTO } from "../../../types/articles-type";
 import SidebarRituel from "./SidebarRetourAffectif";
 
 
@@ -27,7 +27,7 @@ export default async function SidebarRituelLayout() {
     select: { id: true, name: true, slug: true, createdAt: true },
   });
 
-  const randomTags = getRandomItems(tags, 20);
+  const randomTags = getRandomItems(tags, 10);
 
   // 🔹 Préparer les articles pour la sidebar
   const sidebarArticles: ArticleSidebarDTO[] = articles.map((a) => ({

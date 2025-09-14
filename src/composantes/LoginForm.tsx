@@ -53,7 +53,7 @@ export default function LoginForm() {
       className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-md space-y-6"
     >
       <h2 className="text-2xl font-bold text-center text-gray-800">
-        Connexion – <span className="text-red-600">Médium Ali Moussa</span>
+        Connexion – <span className="text-red-600">Marabout Dagbe</span>
       </h2>
 
       {/* ✅ Message succès avec fade */}

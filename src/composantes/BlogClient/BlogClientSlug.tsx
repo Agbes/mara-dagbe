@@ -1,6 +1,6 @@
 "use client";
 
-import { ArticleDTO } from "../../../types/articles-tytp";
+import { ArticleDTO } from "../../../types/articles-type";
 import Link from "next/link";
 import Image from "next/image";
 

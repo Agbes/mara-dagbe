@@ -16,8 +16,8 @@ import {
 } from "lucide-react";
 
 
-// import { signOut, useSession } from "next-auth/react";
-// import { redirect } from "next/navigation";
+import { signOut, useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 
 type MenuItem = {
@@ -35,11 +35,11 @@ type MenuItem = {
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
 
-    // const { data: session } = useSession()
+    const { data: session } = useSession()
 
-    // if (!session || !session.user.superUser) {
-    //     redirect("/login");
-    // }
+    if (!session || !session.user.superUser) {
+        redirect("/login");
+    }
     const [active, setActive] = useState("dashboard");
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [openDropdown, setOpenDropdown] = useState<string | null>(null);
@@ -162,7 +162,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
                 <div className="p-4 border-t border-cyan-700">
                     <button
-                        // onClick={() => signOut({ callbackUrl: "/" })}
+                        onClick={() => signOut({ callbackUrl: "/" })}
                         className="w-full flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 py-3 rounded-lg transition">
                         <LogOut className="w-5 h-5" /> Déconnexion
                     </button>

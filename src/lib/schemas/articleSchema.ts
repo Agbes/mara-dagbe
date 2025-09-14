@@ -22,7 +22,16 @@ export const articleFormSchema = z.object({
   conclusion: z.string().min(10, "La conclusion est trop courte"),
   metaTitre: z.string().min(10, "Le meta titre est trop court"),
   metaDescription: z.string().min(10, "La meta description est trop courte"),
-  coverImage: z.string().url("URL d’image invalide").nullable().optional(),
+  
+  // ✅ objet Cloudinary (cover image)
+  coverImage: z
+    .object({
+      url: z.string().url("URL d’image invalide").nullable(),
+      publicId: z.string().nullable(),
+    })
+    .nullable()
+    .optional(),
+
   categoryId: z.union([z.number().int().positive(), z.literal("")]),
   tags: z.array(z.string().min(1, "Chaque tag doit avoir un nom")),
   published: z.boolean(),
@@ -35,7 +44,16 @@ export const articleFormSchema = z.object({
       .array(
         z.object({
           subtitle: z.string().min(1, "Le sous-titre est requis"),
-          image: z.string().url("L’image doit être une URL valide"),
+
+          // ✅ objet Cloudinary (image section)
+          image: z
+            .object({
+              url: z.string().url("L’image doit être une URL valide").nullable(),
+              publicId: z.string().nullable(),
+            })
+            .nullable(),
+
+
           text: z.string().min(1, "Le texte est requis"),
         })
       )
@@ -44,3 +62,13 @@ export const articleFormSchema = z.object({
 });
 
 export type ArticleFormValues = z.infer<typeof articleFormSchema>;
+
+
+export type ArticleFormValuesWithFiles = ArticleFormValues & {
+  coverImageFile?: File | null;
+  content: {
+    sections: (ArticleFormValues["content"]["sections"][number] & {
+      imageFile?: File | null;
+    })[];
+  };
+};

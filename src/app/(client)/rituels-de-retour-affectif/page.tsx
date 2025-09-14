@@ -39,7 +39,7 @@ export default async function RetourAffectifPage() {
                 >
                   {article.coverImage && (
                     <Image
-                      src={article.coverImage}
+                      src={article.coverImage.url}
                       alt={article.title}
                       className="w-full h-48 object-cover"
                       width={400}
@@ -66,7 +66,7 @@ export default async function RetourAffectifPage() {
                   className="block bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden"
                 >
                   <Image
-                    src={a.coverImage ?? "/default-cover.jpg"}
+                    src={a.coverImage?.url ?? "/default-cover.jpg"}
                     alt={a.title}
                     width={400}
                     height={250}

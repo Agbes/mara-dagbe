@@ -1,7 +1,7 @@
 "use client";
 
 import DataTable from "./DataTable";
-import { ArticleDTO } from "../../../../types/articles-tytp";
+import { ArticleDTO } from "../../../../types/articles-type";
 import { articleColumns } from "./ArticlesTableColumns";
 
 

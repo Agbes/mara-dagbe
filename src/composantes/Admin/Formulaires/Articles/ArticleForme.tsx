@@ -5,12 +5,10 @@ import { useForm, Controller, useFieldArray, Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { articleFormSchema, ArticleFormValues } from "@/lib/schemas/articleSchema";
-import { ArticleDTO } from "../../../../../types/articles-tytp";
+import { ArticleDTO } from "../../../../../types/articles-type";
 
 // ---- UI Components ----
-
-
-import TailwindUploadButton from "../../CloudinaryUpload/TailwindUploadButton";
+import TailwindUploadButton from "../../../TailwindUploadButton";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { Input } from "../../ui/input";
 import { Textarea } from "../../ui/textarea";
@@ -31,6 +29,7 @@ type Props = {
 // Default values util
 // ==========================
 function getDefaultValues(initialData?: ArticleDTO): ArticleFormValues {
+    console.log("📌 getDefaultValues appelé avec:", initialData);
     return {
         id: initialData?.id,
         title: initialData?.title ?? "",
@@ -39,16 +38,30 @@ function getDefaultValues(initialData?: ArticleDTO): ArticleFormValues {
         metaTitre: initialData?.slug ?? "",
         metaDescription: initialData?.description ?? "",
         conclusion: initialData?.conclusion ?? "",
-        coverImage: initialData?.coverImage ?? undefined,
+        
+        coverImage: initialData?.coverImage
+            ? typeof initialData.coverImage === "string"
+                ? { url: initialData.coverImage, publicId: "" } // publicId vide si absent
+                : initialData.coverImage
+            : null,
+
+        content: {
+            sections: initialData?.content?.sections?.map(s => ({
+                subtitle: s.subtitle ?? "",
+                text: s.text ?? "",
+                image: s.image ? {
+                    url: s.image.url ?? null,
+                    publicId: s.image.publicId ?? null
+                } : null,
+            })) ?? [],
+        },
+
+
         categoryId: initialData?.categoryId ?? "",
         tags: initialData?.tags ?? [],
         published: initialData?.published ?? false,
         publishedAt: initialData?.publishedAt ? new Date(initialData.publishedAt) : null,
-        content: {
-            sections: initialData?.content?.sections?.length
-                ? initialData.content.sections
-                : [],
-        },
+
     };
 }
 
@@ -72,7 +85,9 @@ function slugify(str: string) {
 // ==========================
 // Component
 // ==========================
-export default function ArticleForm({ initialData, categories = [], onSubmit }: Props) {
+export default function ArticleForme({ initialData, categories = [], onSubmit }: Props) {
+    console.log("🚀 ArticleForme rendu avec props:", { initialData, categories });
+
     const {
         control,
         handleSubmit,
@@ -87,18 +102,29 @@ export default function ArticleForm({ initialData, categories = [], onSubmit }: 
     });
 
     const values = watch();
+    console.log("👀 watch values:", values);
+
+    // 🛠️ Log des erreurs globalement
+    useEffect(() => {
+        if (Object.keys(errors).length > 0) {
+            console.log("⚠️ formState.errors détectés:", errors);
+        }
+    }, [errors]);
 
     // Slug automatique
     const title = watch("title");
     const slug = watch("slug");
     useEffect(() => {
+        console.log("🔄 useEffect Slugify déclenché:", { title, slug });
         if (title && (!slug || slug === slugify(title))) {
+            console.log("⚡ Slug généré:", slugify(title));
             setValue("slug", slugify(title), { shouldValidate: true });
         }
     }, [title, slug, setValue]);
 
     // Reset quand initialData change
     useEffect(() => {
+        console.log("♻️ Reset form avec initialData:", initialData);
         reset(getDefaultValues(initialData));
     }, [initialData, reset]);
 
@@ -107,16 +133,20 @@ export default function ArticleForm({ initialData, categories = [], onSubmit }: 
         control,
         name: "content.sections",
     });
+    console.log("📚 Sections actuelles:", fields);
 
     // Tags
     const handleAddTag = (tag: string) => {
+        console.log("➕ Ajout de tag:", tag);
         if (!tag) return;
         if (!values.tags.includes(tag)) {
             setValue("tags", [...values.tags, tag]);
+            console.log("✅ Nouveau tags:", [...values.tags, tag]);
         }
     };
 
     const handleRemoveTag = (tag: string) => {
+        console.log("❌ Suppression de tag:", tag);
         setValue(
             "tags",
             values.tags.filter((t) => t !== tag)
@@ -125,16 +155,20 @@ export default function ArticleForm({ initialData, categories = [], onSubmit }: 
 
     // Submit wrapper
     const handleInternalSubmit = async (data: ArticleFormValues) => {
+        console.log("📤 handleInternalSubmit data envoyé:", data);
         try {
             await onSubmit(data);
+            console.log("✅ onSubmit réussi !");
         } catch (err) {
-            console.error("Erreur lors de l'envoi :", err);
+            console.error("❌ Erreur lors de l'envoi :", err);
         }
     };
 
     return (
-        <form onSubmit={handleSubmit(handleInternalSubmit)} className="space-y-6">
-
+        <form
+            onSubmit={handleSubmit(handleInternalSubmit)}
+            className="space-y-6"
+        >
             {/* Informations générales */}
             <Card>
                 <CardHeader>
@@ -164,17 +198,37 @@ export default function ArticleForm({ initialData, categories = [], onSubmit }: 
                     <CardTitle>Image de couverture</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <Controller
-                        name="coverImage"
-                        control={control}
-                        render={({ field }) => (
-                            <TailwindUploadButton
-                                value={field.value ?? undefined}
-                                onChange={field.onChange}
-                                label="Téléverser l'image de couverture"
-                            />
-                        )}
+                    <TailwindUploadButton
+                        existingImage={values.coverImage?.url ?? undefined} // <-- ici
+                        onSelectFile={async (file: File | null) => {
+                            if (!file) {
+                                setValue("coverImage", null, { shouldValidate: true });
+                                return;
+                            }
+
+
+                            const formData = new FormData();
+                            formData.append("file", file);
+                            formData.append("folder", "Articles");
+
+                            const res = await fetch("/api/admin/upload", { method: "POST", body: formData });
+                            if (!res.ok) {
+                                const errorData = await res.json().catch(() => null);
+                                throw new Error(errorData?.message || "Échec de l'upload de l'image");
+                            }
+
+                            const data = await res.json();
+                            setValue("coverImage", {
+                                url: data.url ?? null,
+                                publicId: data.public_id ?? null,  // ✅ plus jamais undefined
+                            }, { shouldValidate: true });
+
+                        }}
                     />
+
+
+
+
                 </CardContent>
             </Card>
 
@@ -190,7 +244,10 @@ export default function ArticleForm({ initialData, categories = [], onSubmit }: 
                         render={({ field }) => (
                             <Select
                                 value={field.value === "" ? "" : String(field.value)}
-                                onValueChange={(val: string) => field.onChange(val === "" ? "" : Number(val))}
+                                onValueChange={(val: string) => {
+                                    console.log("📂 Catégorie choisie:", val);
+                                    field.onChange(val === "" ? "" : Number(val));
+                                }}
                             >
                                 <SelectTrigger>
                                     <SelectValue placeholder="Choisir une catégorie" />
@@ -262,27 +319,56 @@ export default function ArticleForm({ initialData, categories = [], onSubmit }: 
                                 placeholder="Texte de la section"
                                 {...register(`content.sections.${index}.text` as const)}
                             />
-                            <Controller
-                                control={control}
-                                name={`content.sections.${index}.image`}
-                                render={({ field }) => (
-                                    <TailwindUploadButton
-                                        value={field.value ?? undefined}
-                                        onChange={field.onChange}
-                                        label="Image de section"
-                                    />
-                                )}
+                            <TailwindUploadButton
+                                existingImage={field.image?.url ?? undefined} // <-- corrige ici aussi
+                                onSelectFile={async (file: File | null) => {
+                                    if (!file) {
+                                        setValue(`content.sections.${index}.image`, null, { shouldValidate: true });
+                                        return;
+                                    }
+
+
+                                    const formData = new FormData();
+                                    formData.append("file", file);
+                                    formData.append("folder", "Articles");
+
+                                    const res = await fetch("/api/admin/upload", { method: "POST", body: formData });
+                                    if (!res.ok) {
+                                        const errorData = await res.json().catch(() => null);
+                                        throw new Error(errorData?.message || "Échec de l'upload de l'image");
+                                    }
+
+                                    const data = await res.json();
+                                    setValue(`content.sections.${index}.image`, {
+                                        url: data.url ?? null,
+                                        publicId: data.public_id ?? null,  // ✅
+                                    }, { shouldValidate: true });
+                                }}
                             />
+
+
+
+
+
                             <Button
                                 type="button"
                                 variant="destructive"
-                                onClick={() => remove(index)}
+                                onClick={() => {
+                                    console.log("🗑️ Suppression section index:", index);
+                                    remove(index);
+                                }}
                             >
                                 Supprimer section
                             </Button>
                         </div>
                     ))}
-                    <Button type="button" onClick={() => append({ subtitle: "", text: "", image: "" })}>
+                    <Button
+                        type="button"
+                        onClick={() => {
+                            console.log("➕ Ajout nouvelle section");
+                            append({ subtitle: "", text: "", image: { url: null, publicId: null }, });
+                        }}
+                    >
                         ➕ Ajouter une section
                     </Button>
                 </CardContent>
@@ -317,18 +403,25 @@ export default function ArticleForm({ initialData, categories = [], onSubmit }: 
                                             : "draft"
                                 }
                                 onValueChange={(val: string) => {
+                                    console.log("📌 Changement publication:", val);
                                     if (val === "published") {
                                         field.onChange(true);
                                         setValue("publishedAt", new Date());
                                     } else if (val === "scheduled") {
                                         field.onChange(false);
-                                        setValue("publishedAt", values.publishedAt ?? new Date(Date.now() + 60 * 60 * 1000));
+                                        setValue(
+                                            "publishedAt",
+                                            values.publishedAt ?? new Date(Date.now() + 60 * 60 * 1000)
+                                        );
                                     } else {
                                         field.onChange(false);
                                         setValue("publishedAt", null);
                                     }
+                                    console.log("📅 Nouveau état:", {
+                                        published: field.value,
+                                        publishedAt: values.publishedAt,
+                                    });
                                 }}
-
                             >
                                 <SelectTrigger>
                                     <SelectValue placeholder="Choisir un statut" />
@@ -347,15 +440,21 @@ export default function ArticleForm({ initialData, categories = [], onSubmit }: 
                             <label className="text-sm font-medium text-gray-700">
                                 Date de publication
                             </label>
-                            <Input
-                                type="datetime-local"
-                                {...register("publishedAt", { valueAsDate: true })}
-                                value={values.publishedAt ? formatDateForInput(values.publishedAt) : ""}
-                                onChange={(e) => {
-                                    const date = e.target.value ? new Date(e.target.value) : null;
-                                    setValue("publishedAt", date, { shouldValidate: true });
-                                }}
+                            <Controller
+                                name="publishedAt"
+                                control={control}
+                                render={({ field }) => (
+                                    <Input
+                                        type="datetime-local"
+                                        value={field.value ? formatDateForInput(field.value) : ""}
+                                        onChange={(e) => {
+                                            const date = e.target.value ? new Date(e.target.value) : null;
+                                            field.onChange(date);
+                                        }}
+                                    />
+                                )}
                             />
+
                         </div>
                     )}
                 </CardContent>

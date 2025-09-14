@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArticleDTO } from "../../../types/articles-tytp";
+import { ArticleDTO } from "../../../types/articles-type";
 
 type Props = {
   article: ArticleDTO;

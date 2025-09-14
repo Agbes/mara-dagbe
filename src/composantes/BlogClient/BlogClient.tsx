@@ -1,6 +1,6 @@
 "use client";
 
-import { ArticleDTO } from "../../../types/articles-tytp";
+import { ArticleDTO } from "../../../types/articles-type";
 import { ReactNode } from "react";
 import ArticleCard from "./ArticleCard";
 

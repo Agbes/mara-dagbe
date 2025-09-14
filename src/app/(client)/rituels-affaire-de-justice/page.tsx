@@ -16,7 +16,7 @@ export const metadata = generateStaticMetadata(seoJustice);
 
 
 export default async function JusticePage() {
-    const { category, articlesAll } = await getArticlesByCategory("problemes-de-justice");
+    const { category, articlesAll } = await getArticlesByCategory("affaire-de-justice");
 
     if (!category) {
         redirect("/rituels");
@@ -40,7 +40,7 @@ export default async function JusticePage() {
                                 >
                                     {article.coverImage && (
                                         <Image
-                                            src={article.coverImage}
+                                            src={article.coverImage.url}
                                             alt={article.title}
                                             className="w-full h-48 object-cover"
                                             width={400}
@@ -66,7 +66,7 @@ export default async function JusticePage() {
                                     className="block bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden"
                                 >
                                     <Image
-                                        src={a.coverImage ?? "/default-cover.jpg"}
+                                        src={a.coverImage?.url ?? "/default-cover.jpg"}
                                         alt={a.title}
                                         className="w-full h-40 object-cover"
                                         width={400}

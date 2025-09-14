@@ -5,7 +5,6 @@ import Image from "next/image";
 
 export const dynamic = "force-dynamic";
 
-
 import { generateJSONLD, generateStaticMetadata } from "@/lib/seo";
 import { seoGalerie } from "@/data/seoData";
 import BlogLayout from "@/composantes/Admin/BlogLayout";
@@ -13,31 +12,32 @@ import { redirect } from "next/navigation";
 
 export const metadata = generateStaticMetadata(seoGalerie);
 
-
 export default async function GaleriPage() {
   // 🔹 Tous les articles déjà mappés en ArticleDTO
   const articles = await getAllArticles();
 
   if (!articles || articles.length === 0){
-        redirect("/rituels");
+    redirect("/rituels");
   };
 
-  // 🔹 Construire la liste de toutes les images
+  // 🔹 Construire la liste de toutes les images valides
   const allImages = articles.flatMap((article) => {
     const images: { src: string; articleTitle: string; articleSlug: string }[] = [];
 
-    if (article.coverImage) {
+    // ✅ CoverImage si valide
+    if (article.coverImage?.url?.trim()) {
       images.push({
-        src: article.coverImage,
+        src: article.coverImage.url,
         articleTitle: article.title,
         articleSlug: article.slug,
       });
     }
 
+    // ✅ Images des sections si valides
     article.content?.sections?.forEach((section) => {
-      if (section.image) {
+      if (section.image?.url?.trim()) {
         images.push({
-          src: section.image,
+          src: section.image.url,
           articleTitle: article.title,
           articleSlug: article.slug,
         });
@@ -85,7 +85,6 @@ export default async function GaleriPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: generateJSONLD(seoGalerie) }}
       />
-
     </>
   );
 }

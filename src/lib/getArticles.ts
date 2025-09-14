@@ -1,5 +1,5 @@
 // lib/getArticles.ts
-import { ArticleDTO, ArticleWithRelations, CategoryDTO, mapArticle, TagDTO } from "../../types/articles-tytp";
+import { ArticleDTO, ArticleWithRelations, CategoryDTO, mapArticle, TagDTO } from "../../types/articles-type";
 import prisma from "./prisma";
 
 

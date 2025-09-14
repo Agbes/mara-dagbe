@@ -2,7 +2,7 @@
 
 import { useMemo, useState, useCallback } from "react";
 import Link from "next/link";
-import { ArticleDTO } from "../../../../types/articles-tytp";
+import { ArticleDTO } from "../../../../types/articles-type";
 import { useRouter } from "next/navigation";
 import DataTable, { Column } from "../Tables/DataTable";
 import { Button } from "../ui/button";
@@ -62,9 +62,14 @@ export default function ArticlesPage({ articles }: Props) {
                 Modifier
               </Button>
             </Link>
-            <Button size="sm" variant="destructive" onClick={() => handleDelete(row.slug)}>
+            <Button
+              size="sm"
+              variant="destructive"
+              onClick={() => handleDelete(row.slug)}
+            >
               Supprimer
             </Button>
+
           </div>
         ),
       },

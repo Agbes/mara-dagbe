@@ -1,6 +1,6 @@
 "use client"
 
-import { ArticleDTO } from "../../../../types/articles-tytp"
+import { ArticleDTO } from "../../../../types/articles-type"
 
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "../ui/dialog"
 import { Button } from "../ui/button"

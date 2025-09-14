@@ -54,7 +54,7 @@ export default function RegisterForm() {
       className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-md space-y-6"
     >
       <h2 className="text-2xl font-bold text-center text-gray-800">
-        Inscription – <span className="text-red-600">Médium Ali Moussa</span>
+        Inscription – <span className="text-red-600">Marabout Dagbe</span>
       </h2>
 
       {successMsg && (

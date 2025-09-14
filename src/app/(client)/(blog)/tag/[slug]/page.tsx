@@ -3,7 +3,7 @@
 import prisma from "@/lib/prisma";
 import Link from "next/link";
 import Image from "next/image";
-import { ArticleDTO, mapArticle } from "../../../../../../types/articles-tytp";
+import { ArticleDTO, mapArticle } from "../../../../../../types/articles-type";
 import { content } from "@/lib/getContentPage";
 import { redirect } from "next/navigation";
 import { generateMetadataTag, seoPropsFromTagDynamic } from "@/lib/seo";

@@ -1,6 +1,6 @@
 // src/app/(admin)/admin/rituels/page.tsx
 import prisma from "@/lib/prisma";
-import { ArticleDTO } from "../../../../../types/articles-tytp";
+import { ArticleDTO } from "../../../../../types/articles-type";
 import ArticlesPage from "@/composantes/Admin/articles/ArticlesPage";
 
 export default async function RituelsPage() {

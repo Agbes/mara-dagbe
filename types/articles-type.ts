@@ -1,13 +1,15 @@
 import type { Prisma } from "@prisma/client";
 
+
+
 /**
  * Contenu JSON strict de l'article (stocké dans Article.content)
  */
 export type ArticleContent = {
   sections: {
     subtitle: string;   // sous-titre de la section
-    image: string;      // URL ou chemin de l'image
-    text: string;       // texte de la section
+    image: { url: string; publicId: string } | null;
+    text: string;
   }[];
 };
 
@@ -19,7 +21,7 @@ export type ArticleWithRelations = {
   slug: string;
   title: string;
   description: string;
-  coverImage: string | null;       // optionnel
+  coverImage: Prisma.JsonValue | null;   // ✅ devient JSON
   content: Prisma.JsonValue;        // contenu JSON
   conclusion: string;
   metaTitre: string;               // SEO
@@ -74,8 +76,10 @@ export type ArticleDTO = {
   slug: string;
   title: string;
   description: string;
-  coverImage?: string | null;
-  content: ArticleContent;
+  coverImage?: {
+    url: string;
+    publicId: string;
+  } | null;  content: ArticleContent;
   conclusion: string;
   metaTitre: string;
   metaDescription: string;
@@ -97,7 +101,7 @@ export function mapArticle(article: ArticleWithRelations): ArticleDTO {
     slug: article.slug,
     title: article.title,
     description: article.description,
-    coverImage: article.coverImage,
+    coverImage: article.coverImage as { url: string; publicId: string } | null,
     content: article.content as ArticleContent,
     conclusion: article.conclusion,
     metaTitre: article.metaTitre,
@@ -120,7 +124,10 @@ export type ArticleFormValues = {
   title: string;
   slug: string;
   description: string;
-  coverImage?: string | null;
+  coverImage?: {
+    url: string;
+    publicId: string;
+  } | null;  
   categoryId: number | "";  
   tags: string[];         
   published: boolean;
@@ -197,5 +204,8 @@ export type TagArticleDTO = {
 export type ArticleSidebarDTO = {
   title: string;
   slug: string;
-  coverImage?: string | null;
+  coverImage?: {
+    url: string;
+    publicId: string;
+  } | null;  
 };

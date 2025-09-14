@@ -2,8 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { ArticleFormValues } from "@/lib/schemas/articleSchema";
-import { ArticleDTO } from "../../../../../types/articles-tytp";
-import ArticleForm from "../../Formulaires/Articles/ArticleForme";
+import { ArticleDTO } from "../../../../../types/articles-type";
+import ArticleForme from "../../Formulaires/Articles/ArticleForme";
 
 type Props = {
   categories: { id: number; name: string }[];
@@ -36,7 +36,7 @@ export default function EditArticlePage({ categories, article }: Props) {
       <h1 className="text-2xl font-bold mb-6">
         Modifier l’article : {article.title}
       </h1>
- <ArticleForm categories={categories} initialData={article} onSubmit={handleUpdate} />
+      <ArticleForme categories={categories} initialData={article} onSubmit={handleUpdate} />
 
     </div>
   );

@@ -70,7 +70,7 @@ model Article {
   slug            String       @unique
   title           String
   description     String
-  coverImage      String?
+  coverImage      Json?        // <== changement : Json pour stocker {url, publicId}
   content         Json
   published       Boolean      @default(false)
   publishedAt     DateTime?

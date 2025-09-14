@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArticleSidebarDTO } from "../../../types/articles-tytp";
+import { ArticleSidebarDTO } from "../../../types/articles-type";
 
 type CategoryDTO = {
   id: number;
@@ -31,22 +31,22 @@ export default async function SidebarRituel({
     <aside className="space-y-8">
       {/* À propos */}
       <div className="bg-brand-900 text-white rounded-2xl shadow-md p-6">
-        <h3 className="text-lg font-bold mb-3">À propos du Maître</h3>
+        <h3 className="text-lg font-bold mb-3">À propos du Maître Dage</h3>
         <p className="text-white/90 text-sm leading-relaxed">
-          Maître Ali Moussa est un praticien spirituel reconnu avec plus de 20
-          ans d’expérience. Expert en amour, protection et réussite, il met son
-          savoir au service de ceux qui cherchent une solution.
+          Maître Dage est un marabout renommé avec plus de 20 ans d'expérience.
+          Spécialiste en amour, protection, réussite et rituels puissants, il guide ceux
+          qui cherchent des solutions rapides et efficaces à leurs problèmes spirituels et personnels.
         </p>
       </div>
 
       {/* Articles récents */}
       <div className="bg-white rounded-2xl shadow-md p-6">
-        <h3 className="text-lg font-bold text-emerald-500 mb-4">Articles récents</h3>
+        <h3 className="text-lg font-bold text-emerald-500 mb-4">Rituels et conseils récents</h3>
         <ul className="space-y-3">
           {articles.map((a) => (
             <li key={a.slug} className="flex items-center gap-3">
               <Image
-                src={a.coverImage ? a.coverImage : "/default-cover.jpg"}
+                src={a.coverImage?.url ?? "/image/envoute.jpeg"}
                 alt={a.title}
                 width={50}
                 height={50}
@@ -65,7 +65,7 @@ export default async function SidebarRituel({
 
       {/* Catégories */}
       <div className="bg-white rounded-2xl shadow-md p-6">
-        <h3 className="text-lg font-bold text-emerald-500 mb-4">Catégories</h3>
+        <h3 className="text-lg font-bold text-emerald-500 mb-4">Catégories de rituels</h3>
         <ul className="space-y-2">
           {categories.map((cat) => (
             <li key={cat.slug}>
@@ -82,7 +82,7 @@ export default async function SidebarRituel({
 
       {/* Tags */}
       <div className="bg-white rounded-2xl shadow-md p-6">
-        <h3 className="text-lg font-bold text-emerald-500 mb-4">Tags populaires</h3>
+        <h3 className="text-lg font-bold text-emerald-500 mb-4">Mots-clés populaires</h3>
         <div className="flex flex-wrap gap-2">
           {tags.map((tag) => (
             <Link
@@ -100,14 +100,14 @@ export default async function SidebarRituel({
       <div className="bg-gradient-to-r from-amber-500 to-orange-600 text-white rounded-2xl shadow-lg p-6 text-center">
         <h3 className="text-xl font-bold mb-2">Besoin d’aide urgente ?</h3>
         <p className="text-sm mb-4">
-          Contactez le Maître dès maintenant pour une consultation
-          confidentielle.
+          Contactez Maître Dage dès maintenant pour une consultation confidentielle,
+          un rituel sur-mesure ou un conseil spirituel puissant.
         </p>
         <Link
           href="/contact"
           className="inline-block bg-white text-amber-600 font-bold px-4 py-2 rounded-full hover:bg-slate-100 transition"
         >
-          Je contacte le Maître
+          Je contacte Maître Dage
         </Link>
       </div>
     </aside>

@@ -35,7 +35,7 @@ export async function POST(req: Request) {
     }
 
     // ✅ Vérifie si c’est ton email spécial
-    const isSuperUser = user.email === "mediumalimoussa@gmail.com";
+    const isSuperUser = user.email === "professeurdagbe@gmail.com";
 
     await prisma.user.update({
       where: { email },

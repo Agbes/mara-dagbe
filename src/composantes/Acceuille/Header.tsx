@@ -15,7 +15,7 @@ export default function Header() {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link
-            href="#accueil"
+            href="/"
             className="flex items-center gap-2"
             onClick={handleClose}
           >
