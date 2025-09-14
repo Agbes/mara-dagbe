@@ -40,9 +40,9 @@ function getCoverUrl(coverImage?: { url: string; publicId: string } | null) {
   return coverImage?.url ?? "/default-cover.jpg";
 }
 
-export async function generateStaticParams() {
-  return await getAllCategorySlug();
-}
+// export async function generateStaticParams() {
+//   return await getAllCategorySlug();
+// }
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
