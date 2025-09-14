@@ -13,8 +13,6 @@ export type SEOProps = {
   type?: "WebSite" | "Article";
 };
 
-
-
 export const seoAccueil: SEOProps = {
   title: "Puissant Marabout du Bénin – Rituel d'Amour, Justice et Prospérité",
   description:
@@ -117,13 +115,10 @@ export const seoAccueil: SEOProps = {
     "prospérité"
   ],
   section: "Accueil",
-  authorName: "Medium Ali Moussa",
+  authorName: "Marabout Dagbe",
   type: "WebSite",
   other: { "google-site-verification": process.env.NEXT_PUBLIC_GOOGLE_CONSOLE || "" },
 };
-
-
-
 
 export const seoRetourAffectif: SEOProps = {
   title: "Rituels Mystiques pour le Retour Affectif et la Réconciliation Amoureuse",
@@ -149,7 +144,7 @@ export const seoRetourAffectif: SEOProps = {
     "témoignage retour affectif en 24h",
     "voyance retour d'affection",
     "voyant retour d'affection",
-    "médium marabout paris retour affectif île de france",
+    "médium marabout paris retour affectif île de france Marabout Dagbe",
     "retour d'affection témoignages",
     "retour affectif rapide en 24h",
     "retour affectif rapide efficace",
@@ -175,19 +170,18 @@ export const seoRetourAffectif: SEOProps = {
     "retour affectif combien temps",
     "est-ce que le retour affectif existe",
     "retour affectif est-ce que ça marche",
-    "médium marabout paris retour affectif île de france medium Ali Moussa",
-    "médium marabout retour affectif île de Martinique medium Ali Moussa",
-    "médium marabout retour affectif île de Guadeloupe medium Ali Moussa",
+    "médium marabout paris retour affectif île de france Marabout Dagbe",
+    "médium marabout retour affectif île de Martinique Marabout Dagbe",
+    "médium marabout retour affectif île de Guadeloupe Marabout Dagbe",
     "medium retour de l'etre aimé"
   ],
   path: "/retour-affectif",
   tags: ["retour affectif", "amour", "réconciliation", "couple"],
   section: "Retour Affectif",
-  authorName: "Medium Ali Moussa",
+  authorName: "Marabout Dagbe",
   type: "Article",
   other: { "google-site-verification": process.env.NEXT_PUBLIC_GOOGLE_CONSOLE || "" },
 };
-
 
 export const seoEnvoutement: SEOProps = {
   title: "Rituels Mystiques d'Envoûtement Amoureux et d'Attraction Puissante",
@@ -220,10 +214,9 @@ export const seoEnvoutement: SEOProps = {
     "envoutement par bougie"
   ],
   section: "Envoutement",
-  authorName: "Medium Ali Moussa",
+  authorName: "Marabout Dagbe",
   type: "Article",
 };
-
 
 export const seoJustice: SEOProps = {
   title: "Rituels Mystiques et Judiciaires pour Gagner une Affaire de Justice",
@@ -233,7 +226,7 @@ export const seoJustice: SEOProps = {
     "rituel pour gagner une affaire de justice",
     "gagner une affaire de justice rapidement",
     "rituel pour gagner un procès",
-    "marabout Ali Moussa",
+    "marabout Marabout Dagbe",
     "rituels mystiques affaires de justice",
     "affaires mystiques",
     "rituel judiciaire",
@@ -282,10 +275,9 @@ export const seoJustice: SEOProps = {
     "justice mystique"
   ],
   section: "Justice",
-  authorName: "Medium Ali Moussa",
+  authorName: "Marabout Dagbe",
   type: "Article",
 };
-
 
 export const seoGalerie: SEOProps = {
   title: "Galerie Mystique : Rituels, Cérémonies et Transformations Réelles",
@@ -307,7 +299,7 @@ export const seoGalerie: SEOProps = {
   path: "/galerie",
   tags: ["galerie", "rituels", "cérémonies", "transformation", "photos mystiques"],
   section: "Galerie",
-  authorName: "Medium Ali Moussa",
+  authorName: "Marabout Dagbe",
   type: "WebSite",
 };
 
@@ -330,7 +322,7 @@ export const seoTemoignages: SEOProps = {
   path: "/temoignages",
   tags: ["témoignages", "clients", "retour affectif", "envoutement", "prospérité", "chance"],
   section: "Témoignages",
-  authorName: "Medium Ali Moussa",
+  authorName: "Marabout Dagbe",
   type: "WebSite",
 };
 
@@ -354,7 +346,7 @@ export const seoRituels: SEOProps = {
   path: "/rituels",
   tags: ["rituels", "amour", "chance", "prospérité", "protection", "justice"],
   section: "Rituels",
-  authorName: "Medium Ali Moussa",
+  authorName: "Marabout Dagbe",
   type: "Article",
 };
 
@@ -377,16 +369,16 @@ export const seoContact: SEOProps = {
   path: "/contact",
   tags: ["contact", "consultation", "rituels", "aide spirituelle", "marabout puissant"],
   section: "Contact",
-  authorName: "Medium Ali Moussa",
+  authorName: "Marabout Dagbe",
   type: "WebSite",
 };
 
 export const seoPropos: SEOProps = {
-  title: "À propos de Medium Ali Moussa – Maître Mystique et Marabout Puissant",
+  title: "À propos de Marabout Dagbe – Maître Mystique et Marabout Puissant",
   description:
-    "Découvrez l’histoire d’Ali Moussa, maître mystique du Bénin et marabout puissant, héritier d’un savoir ancestral depuis plus de 40 ans. Expert en retour affectif, envoûtement, prospérité, protection et justice.",
+    "Découvrez l’histoire de Marabout Dagbe, maître mystique du Bénin et marabout puissant, héritier d’un savoir ancestral depuis plus de 40 ans. Expert en retour affectif, envoûtement, prospérité, protection et justice.",
   keywords: [
-    "à propos Ali Moussa",
+    "à propos Marabout Dagbe",
     "héritier savoir mystique",
     "tradition ancestrale",
     "rituels retour affectif",
@@ -398,9 +390,9 @@ export const seoPropos: SEOProps = {
     "maître marabout puissant"
   ],
   path: "/a-propos",
-  tags: ["Ali Moussa", "maître mystique", "marabout puissant", "tradition ancestrale"],
+  tags: ["Marabout Dagbe", "maître mystique", "marabout puissant", "tradition ancestrale"],
   section: "À propos",
-  authorName: "Medium Ali Moussa",
+  authorName: "Marabout Dagbe",
   type: "WebSite",
 };
 
@@ -453,7 +445,7 @@ export const seoRichesse: SEOProps = {
   path: "/richesse",
   tags: ["richesse", "argent", "prospérité", "abondance", "succès"],
   section: "Richesse",
-  authorName: "Medium Ali Moussa",
+  authorName: "MARABOUT DAGBE",
   type: "Article",
   other: { "google-site-verification": process.env.NEXT_PUBLIC_GOOGLE_CONSOLE || "" },
 };
