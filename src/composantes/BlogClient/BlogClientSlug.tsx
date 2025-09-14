@@ -31,7 +31,7 @@ export default function BlogClientSlug({ article, articles, sidebar }: Props) {
                         })}
                     </p>
                     <Image
-                        src={article.coverImage ? article.coverImage : "/default-cover.jpg"}
+                        src={article.coverImage?.url || "/default-cover.jpg"}
                         alt={article.title}
                         width={1200}
                         height={600}
@@ -49,12 +49,17 @@ export default function BlogClientSlug({ article, articles, sidebar }: Props) {
                             {/* Image */}
                             <div className={`${index % 2 === 1 ? "md:order-2" : "md:order-1"}`}>
                                 <Image
-                                    src={section.image}
+                                    src={
+                                        typeof section.image === "string"
+                                            ? section.image
+                                            : section.image?.url || "/default-cover.jpg"
+                                    }
                                     alt={section.subtitle}
                                     width={600}
                                     height={400}
                                     className="w-full h-64 object-cover rounded-2xl shadow-md"
                                 />
+
                             </div>
 
                             {/* Texte */}
@@ -72,7 +77,7 @@ export default function BlogClientSlug({ article, articles, sidebar }: Props) {
                 <div className="bg-slate-100 p-6 rounded-2xl shadow-md">
                     <h2 className="text-2xl font-bold text-cyan-700 mb-4">En Conclusion</h2>
                     <p className="text-slate-700 leading-relaxed">{article.conclusion}</p>
-                    <ContactArticle/>
+                    <ContactArticle />
                 </div>
 
                 {/* Articles similaires */}
@@ -88,7 +93,7 @@ export default function BlogClientSlug({ article, articles, sidebar }: Props) {
                                 className="block bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden"
                             >
                                 <Image
-                                    src={a.coverImage ? a.coverImage : "/default-cover.jpg"}
+                                    src={a.coverImage?.url || "/default-cover.jpg"}
                                     alt={a.title}
                                     width={400}
                                     height={250}

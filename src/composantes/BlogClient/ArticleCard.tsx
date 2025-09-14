@@ -13,13 +13,14 @@ export default function ArticleCard({ article }: Props) {
 <article className="flex flex-col bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl hover:shadow-cyan-500/30 transform transition duration-300 hover:scale-105 hover:-translate-y-1">
       {/* Image */}
       <div className="flex-shrink-0">
-        <Image
-          src={article.coverImage ? article.coverImage : "/default-cover.jpg"}
-          alt={article.title}
-          width={500}
-          height={250}
-          className="w-full h-40 object-cover"
-        />
+<Image
+  src={article.coverImage?.url || "/default-cover.jpg"}
+  alt={article.title}
+  width={500}
+  height={250}
+  className="w-full h-40 object-cover"
+/>
+
       </div>
 
       {/* Content */}
