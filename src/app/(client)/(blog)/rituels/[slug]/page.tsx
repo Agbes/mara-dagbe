@@ -134,12 +134,12 @@ export default async function ArticlePage({ params }: Props) {
                             })}
                         </p>
                         <Image
-                            src={article.coverImage ? article.coverImage : "/default-cover.jpg"}
+                            src={article.coverImage?.url ?? "/default-cover.jpg"} // ✅ string
                             alt={article.title}
                             width={1200}
                             height={600}
-                            className="w-full h-80 object-cover rounded-2xl mt-6 shadow-md"
                         />
+
                     </header>
 
                     {/* Sections */}
@@ -152,7 +152,7 @@ export default async function ArticlePage({ params }: Props) {
                                 {/* Image */}
                                 <div className={`${index % 2 === 1 ? "md:order-2" : "md:order-1"}`}>
                                     <Image
-                                        src={section.image?.url} // ✅ prendre la propriété url
+                                        src={section.image?.url ?? "/default-cover.jpg"} // ✅ prendre la propriété url
                                         alt={section.subtitle}
                                         width={600}
                                         height={400}
