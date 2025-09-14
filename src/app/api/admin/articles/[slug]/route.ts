@@ -48,10 +48,10 @@ export async function GET(
 
 export async function PUT(
   req: Request,
-  context: { params: { slug: string } }
+  context: { params: Promise<{ slug: string }> }
 ) {
   try {
-    const { slug } = context.params;
+    const { slug } = await context.params;
     const data = await req.json();
     console.log("🟡 [API PUT] Payload reçu :", JSON.stringify(data, null, 2));
 
