@@ -32,7 +32,7 @@ export async function GET() {
   }
 }
 
-// POST: création d’un article
+
 export async function POST(req: Request) {
   try {
     const data = await req.json();
@@ -41,7 +41,11 @@ export async function POST(req: Request) {
     // Vérification des champs obligatoires
     if (!data.title || !data.categoryId || !data.content) {
       return NextResponse.json(
-        { error: "Champs manquants : title, categoryId ou content" },
+        {
+          success: false,
+          message: "Champs manquants : title, categoryId ou content",
+          data: null,
+        },
         { status: 400 }
       );
     }
@@ -96,10 +100,25 @@ export async function POST(req: Request) {
 
     console.log("✅ [API POST] Article créé :", JSON.stringify(articleWithFlatTags, null, 2));
 
-    return NextResponse.json(mapArticle(articleWithFlatTags));
+    return NextResponse.json(
+      {
+        success: true,
+        message: "Article créé avec succès",
+        data: mapArticle(articleWithFlatTags),
+      },
+      { status: 201 }
+    );
   } catch (err) {
     console.error("❌ [API POST] Erreur création article :", err);
-    const message = err instanceof Error ? err.message : "Erreur serveur inattendue";
-    return NextResponse.json({ error: message }, { status: 500 });
+    const message =
+      err instanceof Error ? err.message : "Erreur serveur inattendue";
+    return NextResponse.json(
+      {
+        success: false,
+        message,
+        data: null,
+      },
+      { status: 500 }
+    );
   }
 }

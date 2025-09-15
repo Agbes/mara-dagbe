@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { ArticleFormValues } from "@/lib/schemas/articleSchema";
 import ArticleForme from "../../Formulaires/Articles/ArticleForme";
+import toast from "react-hot-toast";
 
 type Props = {
   categories: { id: number; name: string }[];
@@ -13,30 +14,29 @@ export default function CreateArticlePage({ categories }: Props) {
 
   console.log("➡️ [CREATE CLIENT] Catégories reçues :", categories);
 
-const handleCreate = async (data: ArticleFormValues) => {
-  try {
-    const res = await fetch("/api/admin/articles", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
+  const handleCreate = async (data: ArticleFormValues) => {
+    try {
+      const res = await fetch("/api/admin/articles", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
 
-    if (!res.ok) {
-      const errorData = await res.json().catch(() => ({ message: "Erreur lors de la création de l’article" }));
-      throw new Error(errorData.message);
+      const result = await res.json();
+
+      if (!res.ok || !result.success) {
+        throw new Error(result.message || "Erreur lors de la création de l’article");
+      }
+
+      toast.success("✅ Article créé avec succès !");
+      router.push("/admin/rituels");
+      router.refresh();
+    } catch (err) {
+      console.error("❌ Erreur création article :", err);
+      const message = err instanceof Error ? err.message : "Erreur inconnue";
+      toast.error(message);
     }
-
-    const article = await res.json();
-    console.log("✅ Article créé :", article);
-
-    router.push("/admin/rituels");
-    router.refresh();
-  } catch (err) {
-    console.error("❌ Erreur création article :", err);
-    throw err instanceof Error ? err : new Error("Erreur inconnue");
-  }
-};
-
+  };
 
   return (
     <div className="p-6">
