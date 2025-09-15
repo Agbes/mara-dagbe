@@ -26,13 +26,13 @@ export type SEOProps = {
 // Config site
 // ----------------------------
 const siteConfig = {
-  name: process.env.NEXT_PUBLIC_SITE_NAME || "Medium Ali Moussa",
-  url: process.env.NEXT_PUBLIC_URL_SITE_BASE || "https://www.medium-ali-moussa.com",
+  name: process.env.NEXT_PUBLIC_SITE_NAME || "Marabout dagbe",
+  url: process.env.NEXT_PUBLIC_URL_SITE_BASE || "https://mara-dagbe.vercel.app/",
   other: {
     "google-site-verification": "",
   },
-  twitter: process.env.NEXT_PUBLIC_TWITER_NAME || "@mediumAliMoussa",
-  defaultImage: `${process.env.NEXT_PUBLIC_URL_SITE_BASE || "https://www.medium-ali-moussa.com"}/images/ali-moussa.jpg`,
+  twitter: process.env.NEXT_PUBLIC_TWITER_NAME || "@Dagbe",
+  defaultImage: `${process.env.NEXT_PUBLIC_URL_SITE_BASE || "https://mara-dagbe.vercel.app"}/images/marabout-dagbe.jpg`,
 };
 
 // ----------------------------
@@ -40,7 +40,7 @@ const siteConfig = {
 // ----------------------------
 function enrichKeywords(base: string[]) {
   const extra = [
-    "Medium Ali Moussa",
+    "Marabout Dagbe",
     "marabout puissant",
     "rituels africains",
     "retour affectif",
@@ -75,7 +75,7 @@ export function generateStaticMetadata({
   const ogType = type === "Article" ? "article" : "website";
 
   return {
-    
+
     title: `${title} | ${siteConfig.name}`,
     description,
     keywords: enrichedKeywords,
@@ -147,7 +147,7 @@ export function generateJSONLD({
       ...(keywords.length && { keywords: keywords.join(", ") }),
       author: {
         "@type": "Person",
-        name: authorName || "Medium Ali Moussa",
+        name: authorName || "Marabout Dagbe",
       },
       ...(datePublished && { datePublished }),
       ...(dateModified && { dateModified }),
@@ -194,10 +194,9 @@ export function seoPropsFromArticle(article: ArticleWithRelations): SEOProps {
     description: article.metaDescription,
     keywords: [...tagKeywords, ...categoryKeyword],
     path: `/rituels/${article.slug}`,
-    image: article.coverImage || undefined,
-    tags: tagKeywords,
+    image: (article.coverImage as { url: string; publicId: string } | null)?.url,
     section: article.category?.name,
-    authorName: "Medium Ali Moussa",
+    authorName: "Marabout Dagbe",
     datePublished: article.createdAt?.toISOString(),
     dateModified: article.updatedAt?.toISOString(),
     type: "Article",
@@ -245,11 +244,9 @@ async function seoPropsFromSource(
   const currentYear = new Date().getFullYear();
 
   const title = `${contentType} sur "${source.name}" (${currentYear}) | ${topTags}`;
-  const description = `Découvrez ${articles.length} ${
-    articles.length > 1 ? "rituels" : "rituel"
-  } ${type === "category" ? "dans la catégorie" : "liés au tag"} "${
-    source.name
-  }", incluant ${topTags}. Restez informé et enrichissez vos connaissances en ${source.name} cette année !`;
+  const description = `Découvrez ${articles.length} ${articles.length > 1 ? "rituels" : "rituel"
+    } ${type === "category" ? "dans la catégorie" : "liés au tag"} "${source.name
+    }", incluant ${topTags}. Restez informé et enrichissez vos connaissances en ${source.name} cette année !`;
 
   return {
     title,

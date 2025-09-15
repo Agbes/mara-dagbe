@@ -10,7 +10,7 @@ import { getAllCategorySlug } from "@/lib/getArticles";
 import BlogLayout from "@/composantes/Admin/BlogLayout";
 import { JsonLD } from "@/composantes/JsonLD";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 type Props = {
   params: Promise<{ slug: string }>;

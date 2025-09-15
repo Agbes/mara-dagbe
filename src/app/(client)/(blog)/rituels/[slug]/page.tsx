@@ -12,7 +12,16 @@ import Head from "next/head";
 import { JsonLD } from "@/composantes/JsonLD";
 import BlogLayout from "@/composantes/Admin/BlogLayout";
 import ContactArticle from "@/composantes/ContactArticle";
-export const dynamic = "force-dynamic";
+
+
+
+
+
+
+
+export const revalidate = 60;
+
+
 
 type Props = {
     params: Promise<{ slug: string }>; // ✅ params est une Promise

@@ -11,9 +11,9 @@ import ReservationSection from "@/composantes/Acceuille/ReservationSection";
 export default function Home() {
   return (
     <>
-        <div className="hidden sm:block bg-brand-800 text-white text-sm py-2 text-center">
-      Séance d’essai offerte — <span className="font-semibold">réservez aujourd’hui</span> ✨
-    </div>
+      <div className="hidden sm:block bg-brand-800 text-white text-sm py-2 text-center">
+        Guidance spirituelle avec Dagbé — <span className="font-semibold">profitez d’une séance d’essai gratuite</span> 🌙
+      </div>
       <Header />
       <HeroSection />
       <RituelsSection />

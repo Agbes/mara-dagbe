@@ -12,7 +12,7 @@ import { getAllTagSlug } from "@/lib/getArticles";
 import { JsonLD } from "@/composantes/JsonLD";
 import BlogLayout from "@/composantes/Admin/BlogLayout";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 type Props = {
     params: Promise<{ slug: string }>; // ✅ params est une Promise

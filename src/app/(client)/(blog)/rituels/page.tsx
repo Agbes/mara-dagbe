@@ -3,7 +3,6 @@ import { ArticleDTO, ArticleWithRelations, mapArticle } from "../../../../../typ
 import prisma from "@/lib/prisma";
 
 import { content } from "@/lib/getContentPage";
-export const dynamic = "force-dynamic";
 
 
 
@@ -12,6 +11,10 @@ import { seoRituels } from "@/data/seoData";
 import ArticleCard from "@/composantes/BlogClient/ArticleCard";
 import BlogLayout from "@/composantes/Admin/BlogLayout";
 
+
+
+
+export const revalidate = 60;
 
 export const metadata = generateStaticMetadata(seoRituels);
 
