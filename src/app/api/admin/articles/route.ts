@@ -2,6 +2,7 @@ import prisma from "@/lib/prisma";
 import { ArticleContent, ArticleDTO, ImageValue, mapArticle } from "../../../../../types/articles-type";
 import { NextRequest, NextResponse } from "next/server";
 import { v2 as cloudinary } from "cloudinary";
+import { slugify } from "@/lib/slugify";
 
 
 // ➡️ GET /api/articles
@@ -15,13 +16,10 @@ export const GET = async () => {
 };
 
 
-
-
-// Cloudinary config
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
-  api_key: process.env.CLOUDINARY_API_KEY!,
-  api_secret: process.env.CLOUDINARY_API_SECRET!,
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 // Upload helper
@@ -63,7 +61,7 @@ export async function POST(req: Request) {
     if (coverFile && coverFile instanceof File) {
       const uploaded: any = await uploadToCloudinary(coverFile, "articles/covers");
       console.log("uploaded.public_id  ", uploaded.public_id);
-      
+
       coverImage = { url: uploaded.secure_url, publicId: uploaded.public_id };
     } else if (coverFile && typeof coverFile === "string") {
       coverImage = JSON.parse(coverFile);
@@ -85,6 +83,14 @@ export async function POST(req: Request) {
       }
     }
 
+
+    // Tags
+    const tagsRaw = formData.get("tags") as string | null;
+    const tagsArray = tagsRaw ? JSON.parse(tagsRaw) as string[] : [];
+
+    if (!Array.isArray(tagsArray)) {
+      console.warn("⚠️ [API POST] tags non fourni ou invalide, valeur reçue :", tagsArray);
+    }
     // Save article
     const article = await prisma.article.create({
       data: {
@@ -96,9 +102,29 @@ export async function POST(req: Request) {
         conclusion,
         coverImage,
         content,
+        tagsArticles: {
+          create: tagsArray.map((tagName: string) => ({
+            tag: {
+              connectOrCreate: {
+                where: { name: tagName },
+                create: { name: tagName, slug: slugify(tagName) },
+              },
+            },
+          })),
+        },
+
         categoryId,
         published,
         publishedAt,
+      },
+      include: {
+        category: { select: { id: true, name: true, slug: true } },
+        tagsArticles: {
+          select: {
+            assignedAt: true,
+            tag: { select: { id: true, name: true, slug: true } },
+          },
+        },
       },
     });
 

@@ -115,6 +115,8 @@ export default function CreateArticlePage({ categories }: Props) {
             formData.append("description", data.description);
             console.debug("➡ description appended:", data.description);
 
+            formData.append("tags", JSON.stringify(data.tags));
+
             formData.append("metaTitre", data.metaTitre);
             console.debug("➡ metaTitre appended:", data.metaTitre);
 

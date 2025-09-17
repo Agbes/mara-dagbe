@@ -136,21 +136,27 @@ export async function PUT(
         published,
         publishedAt,
         tagsArticles: {
-          deleteMany: {}, // Supprime les anciens tags
-          create: tags.map((name: string) => ({
+          deleteMany: {}, // supprime toutes les anciennes relations
+          create: tags.map((tagName: string) => ({
             tag: {
               connectOrCreate: {
-                where: { name },
-                create: {
-                  name,
-                  slug: slugify(name),
-                },
+                where: { name: tagName },
+                create: { name: tagName, slug: slugify(tagName) },
               },
             },
           })),
         },
       },
-      include: { tagsArticles: { include: { tag: true } } },
+      include: {
+        category: { select: { id: true, name: true, slug: true } },
+        tagsArticles: {
+          select: {
+            assignedAt: true, // 👈 ajoute ça
+            tag: { select: { id: true, name: true, slug: true } },
+
+          },
+        },
+      },
     });
 
     return NextResponse.json(article, { status: 200 });
@@ -201,8 +207,13 @@ export async function DELETE(
       console.warn("Erreur suppression sections Cloudinary :", err);
     }
 
-    // Supprimer article
-    await prisma.article.delete({ where: { id: articleId } });
+
+        // Supprime d'abord les tags liés
+    await prisma.tagArticle.deleteMany({ where: { articleId: article.id } });
+
+    // Supprime l'article
+    const deleted = await prisma.article.delete({ where: { id: article.id } });
+    console.log("✅ Article supprimé :", deleted);
 
     return NextResponse.json({ message: "Article supprimé avec succès" }, { status: 200 });
   } catch (err: any) {

@@ -29,6 +29,7 @@ export default function EditArticlePage({ categories, article }: Props) {
             formData.append("metaTitre", data.metaTitre);
             formData.append("metaDescription", data.metaDescription);
             formData.append("conclusion", data.conclusion);
+            formData.append("tags", JSON.stringify(data.tags));
             formData.append("categoryId", String(data.categoryId));
             formData.append("published", String(data.published));
             if (data.publishedAt) formData.append("publishedAt", data.publishedAt.toISOString());
