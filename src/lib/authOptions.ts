@@ -58,12 +58,15 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.superUser = (user as User).superUser;
       }
-      return token;
+      return {
+        ...token,
+        superUser: token.superUser, // conserve toujours la valeur
+      };
     },
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.sub as string;
-        session.user.superUser = Boolean(token.superUser);
+        session.user.superUser = token.superUser as boolean;
       }
       return session;
     },
