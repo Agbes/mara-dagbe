@@ -35,11 +35,22 @@ type MenuItem = {
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
 
-    const { data: session } = useSession()
+    const { data: session, status } = useSession();
 
+    // 🔹 Attente du chargement de la session
+    if (status === "loading") {
+        return (
+            <div className="flex items-center justify-center h-screen">
+                <p className="text-gray-600 animate-pulse">Chargement...</p>
+            </div>
+        );
+    }
+
+    // 🔹 Redirection si pas connecté ou pas superUser
     if (!session || !session.user.superUser) {
         redirect("/login");
     }
+
     const [active, setActive] = useState("dashboard");
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [openDropdown, setOpenDropdown] = useState<string | null>(null);
@@ -97,8 +108,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                                     <button
                                         onClick={() => setOpenDropdown(openDropdown === item.id ? null : item.id)}
                                         className={`w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl transition ${openDropdown === item.id
-                                                ? "bg-cyan-700 text-white"
-                                                : "text-cyan-100 hover:bg-cyan-700 hover:text-white"
+                                            ? "bg-cyan-700 text-white"
+                                            : "text-cyan-100 hover:bg-cyan-700 hover:text-white"
                                             }`}
                                     >
                                         <span className="flex items-center gap-3">
@@ -125,8 +136,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                                                             setSidebarOpen(false);
                                                         }}
                                                         className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition ${active === child.id
-                                                                ? "bg-cyan-600 text-white"
-                                                                : "text-cyan-100 hover:bg-cyan-600"
+                                                            ? "bg-cyan-600 text-white"
+                                                            : "text-cyan-100 hover:bg-cyan-600"
                                                             }`}
                                                     >
                                                         {ChildIcon && <ChildIcon className="w-4 h-4" />}
@@ -149,8 +160,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                                     setSidebarOpen(false);
                                 }}
                                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition ${active === item.id
-                                        ? "bg-cyan-600 text-white"
-                                        : "text-cyan-100 hover:bg-cyan-700 hover:text-white"
+                                    ? "bg-cyan-600 text-white"
+                                    : "text-cyan-100 hover:bg-cyan-700 hover:text-white"
                                     }`}
                             >
                                 {Icon && <Icon className="w-5 h-5" />}
