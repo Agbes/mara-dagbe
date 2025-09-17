@@ -23,11 +23,17 @@ export default async function RituelsPage() {
 
   // On récupère les articles avec la nouvelle relation TagArticle
   const articlesRaw: ArticleWithRelations[] = await prisma.article.findMany({
+    where: {
+      publishedAt: {
+        lte: new Date(),
+      },
+    },
+
     orderBy: { updatedAt: "desc" },
     include: {
       category: { select: { id: true, name: true, slug: true } },
-      tagsArticles: { 
-        select: { 
+      tagsArticles: {
+        select: {
           tag: { select: { id: true, name: true, slug: true } },
           assignedAt: true,
         }

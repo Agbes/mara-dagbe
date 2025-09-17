@@ -44,6 +44,12 @@ export async function getArticlesByCategory(categorySlug: string): Promise<{
 
     // Tous les articles pour suggestions
     const articlesRaw: ArticleWithRelations[] = await prisma.article.findMany({
+        where: {
+            publishedAt: {
+                lte: new Date(), // seulement les articles déjà publiés
+            },
+        },
+
         orderBy: { updatedAt: "desc" },
         include: {
             category: { select: { id: true, name: true, slug: true } },
@@ -116,6 +122,12 @@ export async function getArticlesByTag(tagSlug: string): Promise<{
 
 export async function getAllArticles(): Promise<ArticleDTO[]> {
     const articlesRaw: ArticleWithRelations[] = await prisma.article.findMany({
+        where: {
+            publishedAt: {
+                lte: new Date(), // seulement les articles déjà publiés
+            },
+        },
+
         orderBy: { updatedAt: "desc" },
         include: {
             category: { select: { id: true, name: true, slug: true } },
@@ -131,63 +143,63 @@ export async function getAllArticles(): Promise<ArticleDTO[]> {
 
 
 export async function getAllTag(): Promise<TagDTO[]> {
-  const tagsRaw = await prisma.tag.findMany({
-    orderBy: { name: "asc" },
-    select: {
-      id: true,
-      name: true,
-      slug: true,
-      createdAt: true, // 🔹 obligatoire pour TagDTO
-      tagsArticles: { select: { articleId: true } }, // facultatif
-    },
-  });
+    const tagsRaw = await prisma.tag.findMany({
+        orderBy: { name: "asc" },
+        select: {
+            id: true,
+            name: true,
+            slug: true,
+            createdAt: true, // 🔹 obligatoire pour TagDTO
+            tagsArticles: { select: { articleId: true } }, // facultatif
+        },
+    });
 
-  return tagsRaw.map((tag) => ({
-    id: tag.id,
-    name: tag.name,
-    slug: tag.slug,
-    createdAt: tag.createdAt.toISOString(),
-    articleCount: tag.tagsArticles.length,
-  }));
+    return tagsRaw.map((tag) => ({
+        id: tag.id,
+        name: tag.name,
+        slug: tag.slug,
+        createdAt: tag.createdAt.toISOString(),
+        articleCount: tag.tagsArticles.length,
+    }));
 }
 
 
 
 export async function getAllCategory(): Promise<CategoryDTO[]> {  // Updated return type to CategoryDTO[]
-  const categoriesRaw = await prisma.category.findMany({
-    orderBy: { name: "asc" },
-    select: {
-      id: true,
-      name: true,
-      slug: true,
-      createdAt: true,
-    },
-  });
+    const categoriesRaw = await prisma.category.findMany({
+        orderBy: { name: "asc" },
+        select: {
+            id: true,
+            name: true,
+            slug: true,
+            createdAt: true,
+        },
+    });
 
-  return categoriesRaw.map((category) => ({
-    id: category.id,
-    name: category.name,
-    slug: category.slug,
-    createdAt: category.createdAt.toISOString(),  
-  }));
+    return categoriesRaw.map((category) => ({
+        id: category.id,
+        name: category.name,
+        slug: category.slug,
+        createdAt: category.createdAt.toISOString(),
+    }));
 }
 
 
 export async function getAllCategorySlug(): Promise<{ slug: string }[]> {
-  const categories = await prisma.category.findMany({
-    orderBy: { name: "asc" },
-    select: { slug: true }, // ⚡ uniquement le slug
-  });
+    const categories = await prisma.category.findMany({
+        orderBy: { name: "asc" },
+        select: { slug: true }, // ⚡ uniquement le slug
+    });
 
-  return categories.map((c) => ({ slug: c.slug }));
+    return categories.map((c) => ({ slug: c.slug }));
 }
 
 
 export async function getAllTagSlug(): Promise<{ slug: string }[]> {
-  const tags = await prisma.tag.findMany({
-    orderBy: { name: "asc" },
-    select: { slug: true }, // ⚡ uniquement le slug
-  });
+    const tags = await prisma.tag.findMany({
+        orderBy: { name: "asc" },
+        select: { slug: true }, // ⚡ uniquement le slug
+    });
 
-  return tags.map((t) => ({ slug: t.slug }));
+    return tags.map((t) => ({ slug: t.slug }));
 }

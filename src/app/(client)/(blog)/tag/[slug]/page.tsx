@@ -68,6 +68,12 @@ export default async function TagPage({ params }: Props) {
 
     // Tous les articles pour la section "Autres articles"
     const articlesAllRaw = await prisma.article.findMany({
+        where: {
+            publishedAt: {
+                lte: new Date(), // seulement les articles déjà publiés
+            },
+        },
+
         orderBy: { updatedAt: "desc" },
         include: {
             category: { select: { id: true, name: true, slug: true } },

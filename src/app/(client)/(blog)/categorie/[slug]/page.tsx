@@ -73,6 +73,12 @@ export default async function CategoriePage({ params }: Props) {
 
   // Récupération de tous les articles pour la section "Autres articles"
   const articlesRaw = await prisma.article.findMany({
+    where: {
+      publishedAt: {
+        lte: new Date(), // seulement les articles déjà publiés
+      },
+    },
+
     orderBy: { updatedAt: "desc" },
     include: {
       category: { select: { id: true, name: true, slug: true } },
