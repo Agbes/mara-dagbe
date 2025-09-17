@@ -37,8 +37,14 @@ export default async function EnvoutementPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {category.articles.map((article) => (
                 <Link key={article.id} href={`/rituels/${article.slug}`} className="block bg-white rounded-lg shadow hover:shadow-md transition overflow-hidden">
-                  {article.coverImage && (
-                    <Image src={article.coverImage.url} alt={article.title} width={400} height={192} className="w-full h-48 object-cover" />
+                  {article.coverImage?.url && (
+                    <Image
+                      src={article.coverImage.url}
+                      alt={article.title}
+                      className="w-full h-48 object-cover"
+                      width={400}
+                      height={192}
+                    />
                   )}
                   <div className="p-4">
                     <h2 className="text-xl font-semibold mb-2">{article.title}</h2>

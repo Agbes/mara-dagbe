@@ -12,32 +12,32 @@ type Props = {
 };
 
 export default function ArticlesPage({ articles }: Props) {
-  // ⚡ State local pour les articles
   const [localArticles, setLocalArticles] = useState<ArticleDTO[]>(articles);
-
   const router = useRouter();
 
-  // 🔹 handleDelete mémorisé avec useCallback
+  // 🔹 handleDelete avec id
   const handleDelete = useCallback(
-    async (slug: string) => {
+    async (id: number) => {
       if (!confirm("Voulez-vous vraiment supprimer cet article ?")) return;
 
       try {
-        const res = await fetch(`/api/admin/articles/${slug}`, { method: "DELETE" });
+        const res = await fetch(`/api/admin/articles/${id}`, {
+          method: "DELETE",
+        });
         if (!res.ok) throw new Error("Erreur lors de la suppression");
 
-        setLocalArticles(prev => prev.filter(article => article.slug !== slug));
+        setLocalArticles((prev) => prev.filter((article) => article.id !== id));
         router.refresh();
-        alert(`Article "${slug}" supprimé ✅`);
+        alert(`Article ${id} supprimé ✅`);
       } catch (error) {
         console.error("❌ Erreur suppression :", error);
         alert("Suppression impossible ❌");
       }
     },
-    [router] // router est une dépendance
+    [router]
   );
 
-  // 🔹 Colonnes mémoïsées
+  // 🔹 Colonnes
   const columns: Column<ArticleDTO>[] = useMemo(
     () => [
       { key: "title", label: "Titre", sortable: true },
@@ -57,7 +57,7 @@ export default function ArticlesPage({ articles }: Props) {
         label: "Actions",
         render: (row) => (
           <div className="flex gap-2">
-            <Link href={`/admin/rituels/${row.slug}/edit`}>
+            <Link href={`/admin/rituels/${row.id}/edit`}>
               <Button size="sm" variant="outline">
                 Modifier
               </Button>
@@ -65,16 +65,15 @@ export default function ArticlesPage({ articles }: Props) {
             <Button
               size="sm"
               variant="destructive"
-              onClick={() => handleDelete(row.slug)}
+              onClick={() => handleDelete(row.id)}
             >
               Supprimer
             </Button>
-
           </div>
         ),
       },
     ],
-    [handleDelete] // stable grâce à useCallback
+    [handleDelete]
   );
 
   return (
@@ -82,7 +81,7 @@ export default function ArticlesPage({ articles }: Props) {
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold mb-6">📄 Gestion des articles</h1>
         <Link href="/admin/rituels/create">
-          <Button>➕ Nouvelle Article</Button>
+          <Button>➕ Nouvel Article</Button>
         </Link>
       </div>
       <DataTable data={localArticles} columns={columns} />

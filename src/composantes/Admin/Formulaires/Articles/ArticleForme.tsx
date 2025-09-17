@@ -1,469 +1,521 @@
+// "use client";
+
+// import { useState, useEffect } from "react";
+// import { Input } from "../../ui/input";
+// import { Textarea } from "../../ui/textarea";
+// import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../ui/select";
+// import { Badge } from "../../ui/badge";
+// import { Button } from "../../ui/button";
+// import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
+// import { useArticleForm } from "../useArticleForm";
+// import { ArticleDTO } from "../../../../../types/articles-type";
+// import { ArticleFormValues } from "@/lib/schemas/articleSchema";
+
+// type Category = { id: number; name: string };
+
+// type Props = {
+//   initialData?: ArticleDTO;
+//   categories?: Category[];
+//   onSubmit?: (data: ArticleFormValues) => Promise<void>; // <- utiliser ArticleFormValues ici
+// };
+
+// export default function ArticleForm({ initialData, categories = [], onSubmit }: Props) {
+//   const { register, watch, setValue, sections, onSubmit: internalSubmit, handleSubmit, formState } =
+//     useArticleForm(initialData);
+
+//   const values = watch();
+
+//   // -----------------------
+//   // Cover preview
+//   // -----------------------
+//   const [coverPreview, setCoverPreview] = useState<string | null>(null);
+
+//   function handleCoverFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+//     const file = e.target.files?.[0];
+//     if (file) {
+//       setCoverPreview(URL.createObjectURL(file));
+//       setValue("coverImage", file);
+//     }
+//   }
+
+
+
+//   // -----------------------
+//   // Section previews
+//   // -----------------------
+//   const [sectionPreviews, setSectionPreviews] = useState<(string | null)[]>([]);
+
+//   function handleSectionFileChange(e: React.ChangeEvent<HTMLInputElement>, index: number) {
+//     const file = e.target.files?.[0];
+//     if (file) {
+//       const newPreviews = [...sectionPreviews];
+//       newPreviews[index] = URL.createObjectURL(file);
+//       setSectionPreviews(newPreviews);
+//       setValue(`content.sections.${index}.image`, file);
+//     }
+//   }
+
+//   // -----------------------
+//   // Tags management
+//   // -----------------------
+//   const handleAddTag = (tag: string) => {
+//     if (!tag) return;
+//     if (!values.tags.includes(tag)) setValue("tags", [...values.tags, tag]);
+//   };
+
+//   const handleRemoveTag = (tag: string) => {
+//     setValue("tags", values.tags.filter((t) => t !== tag));
+//   };
+
+//   // -----------------------
+//   // Soumission
+//   // -----------------------
+//   const submitHandler = handleSubmit(async (data) => {
+//     if (onSubmit) {
+//       await onSubmit(data);
+//     } else {
+//       await internalSubmit(data);
+//     }
+//   });
+
+//   // -----------------------
+//   // Rendu
+//   // -----------------------
+//   return (
+//     <form onSubmit={submitHandler} className="space-y-6">
+//       {/* Général */}
+//       <Card>
+//         <CardHeader>
+//           <CardTitle>Informations générales</CardTitle>
+//         </CardHeader>
+//         <CardContent className="space-y-4">
+//           <Input placeholder="Titre" {...register("title")} />
+//           <Input placeholder="Slug" {...register("slug")} />
+//           <Textarea placeholder="Description" {...register("description")} />
+//           <Input placeholder="Meta Titre" {...register("metaTitre")} />
+//           <Textarea placeholder="Meta Description" {...register("metaDescription")} />
+//         </CardContent>
+//       </Card>
+
+//       {/* Image de couverture */}
+//       <Card>
+//         <CardHeader>
+//           <CardTitle>Image de couverture</CardTitle>
+//         </CardHeader>
+//         <CardContent>
+//           {coverPreview && <img src={coverPreview} alt="Cover preview" className="mb-2 max-h-48 object-cover" />}
+//           <Input type="file" accept="image/*" onChange={handleCoverFileChange} />
+//         </CardContent>
+//       </Card>
+
+//       {/* Catégorie */}
+//       <Card>
+//         <CardHeader>
+//           <CardTitle>Catégorie</CardTitle>
+//         </CardHeader>
+//         <CardContent>
+//           <Select
+//             value={String(values.categoryId)}
+//             onValueChange={(val) => setValue("categoryId", Number(val))}
+//           >
+//             <SelectTrigger>
+//               <SelectValue placeholder="Choisir une catégorie" />
+//             </SelectTrigger>
+//             <SelectContent>
+//               {categories.map((c) => (
+//                 <SelectItem key={c.id} value={String(c.id)}>
+//                   {c.name}
+//                 </SelectItem>
+//               ))}
+//             </SelectContent>
+//           </Select>
+//         </CardContent>
+//       </Card>
+
+//       {/* Tags */}
+//       <Card>
+//         <CardHeader>
+//           <CardTitle>Mots-clés</CardTitle>
+//         </CardHeader>
+//         <CardContent>
+//           <div className="flex gap-2 mb-2">
+//             <Input
+//               placeholder="Ajouter un ou plusieurs tags (séparés par virgule)"
+//               onKeyDown={(e) => {
+//                 const input = e.currentTarget;
+//                 if (e.key === "Enter" || e.key === ",") {
+//                   e.preventDefault();
+//                   input.value
+//                     .split(",")
+//                     .map((t) => t.trim())
+//                     .filter(Boolean)
+//                     .forEach(handleAddTag);
+//                   input.value = "";
+//                 }
+//               }}
+//             />
+//           </div>
+//           <div className="flex flex-wrap gap-2">
+//             {values.tags.map((tag) => (
+//               <Badge key={tag} variant="secondary" className="cursor-pointer" onClick={() => handleRemoveTag(tag)}>
+//                 {tag} ✕
+//               </Badge>
+//             ))}
+//           </div>
+//         </CardContent>
+//       </Card>
+
+//       {/* Sections */}
+//       <Card>
+//         <CardHeader>
+//           <CardTitle>Contenu</CardTitle>
+//         </CardHeader>
+//         <CardContent className="space-y-4">
+//           {sections.fields.map((field, index) => (
+//             <div key={field.id} className="border p-4 rounded-md space-y-3">
+//               <Input placeholder="Titre de section" {...register(`content.sections.${index}.subtitle` as const)} />
+//               <Textarea placeholder="Texte de la section" {...register(`content.sections.${index}.text` as const)} />
+//               {sectionPreviews[index] && <img src={sectionPreviews[index]!} alt="Section preview" className="mb-2 max-h-48 object-cover" />}
+//               <Input type="file" accept="image/*" onChange={(e) => handleSectionFileChange(e, index)} />
+
+//               <Button type="button" variant="destructive" onClick={() => sections.remove(index)}>
+//                 Supprimer section
+//               </Button>
+//             </div>
+//           ))}
+//           <Button type="button" onClick={() => sections.append({ subtitle: "", text: "", image: { url: null, publicId: null } })}>
+//             ➕ Ajouter une section
+//           </Button>
+//         </CardContent>
+//       </Card>
+
+//       {/* Conclusion */}
+//       <Card>
+//         <CardHeader>
+//           <CardTitle>Conclusion</CardTitle>
+//         </CardHeader>
+//         <CardContent>
+//           <Textarea placeholder="Conclusion" {...register("conclusion")} />
+//         </CardContent>
+//       </Card>
+
+//       {/* Publication */}
+//       <Card>
+//         <CardHeader>
+//           <CardTitle>Publication</CardTitle>
+//         </CardHeader>
+//         <CardContent className="space-y-4">
+//           <Select
+//             value={values.published ? "published" : values.publishedAt ? "scheduled" : "draft"}
+//             onValueChange={(val) => {
+//               if (val === "published") {
+//                 setValue("published", true);
+//                 setValue("publishedAt", new Date());
+//               } else if (val === "scheduled") {
+//                 setValue("published", false);
+//                 setValue("publishedAt", values.publishedAt ?? new Date());
+//               } else {
+//                 setValue("published", false);
+//                 setValue("publishedAt", null);
+//               }
+//             }}
+//           >
+//             <SelectTrigger>
+//               <SelectValue placeholder="Choisir un statut" />
+//             </SelectTrigger>
+//             <SelectContent>
+//               <SelectItem value="draft">📝 Brouillon</SelectItem>
+//               <SelectItem value="published">✅ Publier maintenant</SelectItem>
+//               <SelectItem value="scheduled">⏰ Planifier une date</SelectItem>
+//             </SelectContent>
+//           </Select>
+
+//           {!values.published && values.publishedAt && (
+//             <Input
+//               type="datetime-local"
+//               value={values.publishedAt?.toISOString().slice(0, 16)}
+//               onChange={(e) => setValue("publishedAt", new Date(e.target.value))}
+//             />
+//           )}
+//         </CardContent>
+//       </Card>
+
+//       <Button type="submit" disabled={formState.isSubmitting}>
+//         {formState.isSubmitting ? "Enregistrement..." : "Enregistrer"}
+//       </Button>
+//     </form>
+//   );
+// }
+
+
+
 "use client";
 
-import { useEffect } from "react";
-import { useForm, Controller, useFieldArray, Resolver } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-
-import { articleFormSchema, ArticleFormValues } from "@/lib/schemas/articleSchema";
-import { ArticleDTO } from "../../../../../types/articles-type";
-
-// ---- UI Components ----
-import TailwindUploadButton from "../../../TailwindUploadButton";
-import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
+import { useState, useEffect } from "react";
 import { Input } from "../../ui/input";
 import { Textarea } from "../../ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../ui/select";
 import { Badge } from "../../ui/badge";
 import { Button } from "../../ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
+import { useArticleForm } from "../useArticleForm";
+import { ArticleDTO } from "../../../../../types/articles-type";
+import { ArticleFormValues } from "@/lib/schemas/articleSchema";
 
-// ==========================
-// Props
-// ==========================
+type Category = { id: number; name: string };
+
 type Props = {
-    initialData?: ArticleDTO;
-    categories?: { id: number; name: string }[];
-    onSubmit: (data: ArticleFormValues) => Promise<void> | void;
+  initialData?: ArticleDTO;
+  categories?: Category[];
+  onSubmit?: (data: ArticleFormValues) => Promise<void>;
 };
 
-// ==========================
-// Default values util
-// ==========================
-function getDefaultValues(initialData?: ArticleDTO): ArticleFormValues {
-    console.log("📌 getDefaultValues appelé avec:", initialData);
-    return {
-        id: initialData?.id,
-        title: initialData?.title ?? "",
-        slug: initialData?.slug ?? "",
-        description: initialData?.description ?? "",
-        metaTitre: initialData?.slug ?? "",
-        metaDescription: initialData?.description ?? "",
-        conclusion: initialData?.conclusion ?? "",
-        
-        coverImage: initialData?.coverImage
-            ? typeof initialData.coverImage === "string"
-                ? { url: initialData.coverImage, publicId: "" } // publicId vide si absent
-                : initialData.coverImage
-            : null,
+export default function ArticleForm({ initialData, categories = [], onSubmit }: Props) {
+  const { register, watch, setValue, sections, onSubmit: internalSubmit, handleSubmit, formState } =
+    useArticleForm(initialData);
 
-        content: {
-            sections: initialData?.content?.sections?.map(s => ({
-                subtitle: s.subtitle ?? "",
-                text: s.text ?? "",
-                image: s.image ? {
-                    url: s.image.url ?? null,
-                    publicId: s.image.publicId ?? null
-                } : null,
-            })) ?? [],
-        },
+  const values = watch();
 
+  // -----------------------
+  // Cover preview
+  // -----------------------
+  const [coverPreview, setCoverPreview] = useState<string | null>(null);
 
-        categoryId: initialData?.categoryId ?? "",
-        tags: initialData?.tags ?? [],
-        published: initialData?.published ?? false,
-        publishedAt: initialData?.publishedAt ? new Date(initialData.publishedAt) : null,
+  useEffect(() => {
+    if (initialData?.coverImage?.url) {
+      setCoverPreview(initialData.coverImage.url);
+    }
+  }, [initialData]);
 
-    };
-}
+  function handleCoverFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (file) {
+      setCoverPreview(URL.createObjectURL(file));
+      setValue("coverImage", file);
+    }
+  }
 
-const formatDateForInput = (date: Date) => {
-    const tzOffset = date.getTimezoneOffset() * 60000;
-    return new Date(date.getTime() - tzOffset).toISOString().slice(0, 16);
-};
+  // -----------------------
+  // Section previews
+  // -----------------------
+  const [sectionPreviews, setSectionPreviews] = useState<(string | null)[]>([]);
 
-// ==========================
-// Slug util
-// ==========================
-function slugify(str: string) {
-    return str
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/(^-|-$)+/g, "");
-}
+  useEffect(() => {
+    if (initialData?.content?.sections?.length) {
+      const previews = initialData.content.sections.map(
+        (s) => s.image?.url || null
+      );
+      setSectionPreviews(previews);
+    }
+  }, [initialData]);
 
-// ==========================
-// Component
-// ==========================
-export default function ArticleForme({ initialData, categories = [], onSubmit }: Props) {
-    console.log("🚀 ArticleForme rendu avec props:", { initialData, categories });
+  // Synchroniser sectionPreviews avec le nombre de sections
+  useEffect(() => {
+    const currentLength = sections.fields.length;
+    if (sectionPreviews.length < currentLength) {
+      setSectionPreviews((prev) => [...prev, ...Array(currentLength - prev.length).fill(null)]);
+    } else if (sectionPreviews.length > currentLength) {
+      setSectionPreviews((prev) => prev.slice(0, currentLength));
+    }
+  }, [sections.fields.length, sectionPreviews]);
 
-    const {
-        control,
-        handleSubmit,
-        register,
-        setValue,
-        watch,
-        reset,
-        formState: { errors, isSubmitting },
-    } = useForm<ArticleFormValues>({
-        resolver: zodResolver(articleFormSchema) as unknown as Resolver<ArticleFormValues>,
-        defaultValues: getDefaultValues(initialData),
-    });
+  function handleSectionFileChange(e: React.ChangeEvent<HTMLInputElement>, index: number) {
+    const file = e.target.files?.[0];
+    if (file) {
+      const newPreviews = [...sectionPreviews];
+      newPreviews[index] = URL.createObjectURL(file);
+      setSectionPreviews(newPreviews);
+      setValue(`content.sections.${index}.image`, file);
+    }
+  }
 
-    const values = watch();
-    console.log("👀 watch values:", values);
+  // -----------------------
+  // Tags management
+  // -----------------------
+  const handleAddTag = (tag: string) => {
+    if (!tag) return;
+    if (!values.tags.includes(tag)) setValue("tags", [...values.tags, tag]);
+  };
 
-    // 🛠️ Log des erreurs globalement
-    useEffect(() => {
-        if (Object.keys(errors).length > 0) {
-            console.log("⚠️ formState.errors détectés:", errors);
-        }
-    }, [errors]);
+  const handleRemoveTag = (tag: string) => {
+    setValue("tags", values.tags.filter((t) => t !== tag));
+  };
 
-    // Slug automatique
-    const title = watch("title");
-    const slug = watch("slug");
-    useEffect(() => {
-        console.log("🔄 useEffect Slugify déclenché:", { title, slug });
-        if (title && (!slug || slug === slugify(title))) {
-            console.log("⚡ Slug généré:", slugify(title));
-            setValue("slug", slugify(title), { shouldValidate: true });
-        }
-    }, [title, slug, setValue]);
+  // -----------------------
+  // Soumission
+  // -----------------------
+  const submitHandler = handleSubmit(async (data) => {
+    if (onSubmit) {
+      await onSubmit(data);
+    } else {
+      await internalSubmit(data);
+    }
+  });
 
-    // Reset quand initialData change
-    useEffect(() => {
-        console.log("♻️ Reset form avec initialData:", initialData);
-        reset(getDefaultValues(initialData));
-    }, [initialData, reset]);
+  // -----------------------
+  // Rendu
+  // -----------------------
+  return (
+    <form onSubmit={submitHandler} className="space-y-6">
+      {/* Général */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Informations générales</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <Input placeholder="Titre" {...register("title")} />
+          <Input placeholder="Slug" {...register("slug")} />
+          <Textarea placeholder="Description" {...register("description")} />
+          <Input placeholder="Meta Titre" {...register("metaTitre")} />
+          <Textarea placeholder="Meta Description" {...register("metaDescription")} />
+        </CardContent>
+      </Card>
 
-    // FieldArray pour sections
-    const { fields, append, remove } = useFieldArray({
-        control,
-        name: "content.sections",
-    });
-    console.log("📚 Sections actuelles:", fields);
+      {/* Image de couverture */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Image de couverture</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {coverPreview && <img src={coverPreview} alt="Cover preview" className="mb-2 max-h-48 object-cover" />}
+          <Input type="file" accept="image/*" onChange={handleCoverFileChange} />
+        </CardContent>
+      </Card>
 
-    // Tags
-    const handleAddTag = (tag: string) => {
-        console.log("➕ Ajout de tag:", tag);
-        if (!tag) return;
-        if (!values.tags.includes(tag)) {
-            setValue("tags", [...values.tags, tag]);
-            console.log("✅ Nouveau tags:", [...values.tags, tag]);
-        }
-    };
+      {/* Catégorie */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Catégorie</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Select
+            value={String(values.categoryId)}
+            onValueChange={(val) => setValue("categoryId", Number(val))}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Choisir une catégorie" />
+            </SelectTrigger>
+            <SelectContent>
+              {categories.map((c) => (
+                <SelectItem key={c.id} value={String(c.id)}>
+                  {c.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </CardContent>
+      </Card>
 
-    const handleRemoveTag = (tag: string) => {
-        console.log("❌ Suppression de tag:", tag);
-        setValue(
-            "tags",
-            values.tags.filter((t) => t !== tag)
-        );
-    };
+      {/* Tags */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Mots-clés</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex gap-2 mb-2">
+            <Input
+              placeholder="Ajouter un ou plusieurs tags (séparés par virgule)"
+              onKeyDown={(e) => {
+                const input = e.currentTarget;
+                if (e.key === "Enter" || e.key === ",") {
+                  e.preventDefault();
+                  input.value
+                    .split(",")
+                    .map((t) => t.trim())
+                    .filter(Boolean)
+                    .forEach(handleAddTag);
+                  input.value = "";
+                }
+              }}
+            />
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {values.tags.map((tag) => (
+              <Badge key={tag} variant="secondary" className="cursor-pointer" onClick={() => handleRemoveTag(tag)}>
+                {tag} ✕
+              </Badge>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
 
-    // Submit wrapper
-    const handleInternalSubmit = async (data: ArticleFormValues) => {
-        console.log("📤 handleInternalSubmit data envoyé:", data);
-        try {
-            await onSubmit(data);
-            console.log("✅ onSubmit réussi !");
-        } catch (err) {
-            console.error("❌ Erreur lors de l'envoi :", err);
-        }
-    };
+      {/* Sections */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Contenu</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {sections.fields.map((field, index) => (
+            <div key={field.id} className="border p-4 rounded-md space-y-3">
+              <Input placeholder="Titre de section" {...register(`content.sections.${index}.subtitle` as const)} />
+              <Textarea placeholder="Texte de la section" {...register(`content.sections.${index}.text` as const)} />
+              {sectionPreviews[index] && <img src={sectionPreviews[index]!} alt="Section preview" className="mb-2 max-h-48 object-cover" />}
+              <Input type="file" accept="image/*" onChange={(e) => handleSectionFileChange(e, index)} />
+              <Button type="button" variant="destructive" onClick={() => sections.remove(index)}>
+                Supprimer section
+              </Button>
+            </div>
+          ))}
+          <Button type="button" onClick={() => sections.append({ subtitle: "", text: "", image: { url: null, publicId: null } })}>
+            ➕ Ajouter une section
+          </Button>
+        </CardContent>
+      </Card>
 
-    return (
-        <form
-            onSubmit={handleSubmit(handleInternalSubmit)}
-            className="space-y-6"
-        >
-            {/* Informations générales */}
-            <Card>
-                <CardHeader>
-                    <CardTitle>Informations générales</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                    <Input placeholder="Titre" {...register("title")} />
-                    {errors.title && <p className="text-red-500">{errors.title.message}</p>}
+      {/* Conclusion */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Conclusion</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Textarea placeholder="Conclusion" {...register("conclusion")} />
+        </CardContent>
+      </Card>
 
-                    <Input placeholder="Slug" {...register("slug")} />
-                    {errors.slug && <p className="text-red-500">{errors.slug.message}</p>}
+      {/* Publication */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Publication</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <Select
+            value={values.published ? "published" : values.publishedAt ? "scheduled" : "draft"}
+            onValueChange={(val) => {
+              if (val === "published") {
+                setValue("published", true);
+                setValue("publishedAt", new Date());
+              } else if (val === "scheduled") {
+                setValue("published", false);
+                setValue("publishedAt", values.publishedAt ?? new Date());
+              } else {
+                setValue("published", false);
+                setValue("publishedAt", null);
+              }
+            }}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Choisir un statut" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="draft">📝 Brouillon</SelectItem>
+              <SelectItem value="published">✅ Publier maintenant</SelectItem>
+              <SelectItem value="scheduled">⏰ Planifier une date</SelectItem>
+            </SelectContent>
+          </Select>
 
-                    <Textarea placeholder="Description" {...register("description")} />
-                    {errors.description && <p className="text-red-500">{errors.description.message}</p>}
+          {!values.published && values.publishedAt && (
+            <Input
+              type="datetime-local"
+              value={values.publishedAt?.toISOString().slice(0, 16)}
+              onChange={(e) => setValue("publishedAt", new Date(e.target.value))}
+            />
+          )}
+        </CardContent>
+      </Card>
 
-                    <Input placeholder="Meta Titre" {...register("metaTitre")} />
-                    {errors.metaTitre && <p className="text-red-500">{errors.metaTitre.message}</p>}
-
-                    <Textarea placeholder="Meta Description" {...register("metaDescription")} />
-                    {errors.metaDescription && <p className="text-red-500">{errors.metaDescription.message}</p>}
-                </CardContent>
-            </Card>
-
-            {/* Image de couverture */}
-            <Card>
-                <CardHeader>
-                    <CardTitle>Image de couverture</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <TailwindUploadButton
-                        existingImage={values.coverImage?.url ?? undefined} // <-- ici
-                        onSelectFile={async (file: File | null) => {
-                            if (!file) {
-                                setValue("coverImage", null, { shouldValidate: true });
-                                return;
-                            }
-
-
-                            const formData = new FormData();
-                            formData.append("file", file);
-                            formData.append("folder", "Articles");
-
-                            const res = await fetch("/api/admin/upload", { method: "POST", body: formData });
-                            if (!res.ok) {
-                                const errorData = await res.json().catch(() => null);
-                                throw new Error(errorData?.message || "Échec de l'upload de l'image");
-                            }
-
-                            const data = await res.json();
-                            setValue("coverImage", {
-                                url: data.url ?? null,
-                                publicId: data.public_id ?? null,  // ✅ plus jamais undefined
-                            }, { shouldValidate: true });
-
-                        }}
-                    />
-
-
-
-
-                </CardContent>
-            </Card>
-
-            {/* Catégorie */}
-            <Card>
-                <CardHeader>
-                    <CardTitle>Catégorie</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <Controller
-                        name="categoryId"
-                        control={control}
-                        render={({ field }) => (
-                            <Select
-                                value={field.value === "" ? "" : String(field.value)}
-                                onValueChange={(val: string) => {
-                                    console.log("📂 Catégorie choisie:", val);
-                                    field.onChange(val === "" ? "" : Number(val));
-                                }}
-                            >
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Choisir une catégorie" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {categories.map((c) => (
-                                        <SelectItem key={c.id} value={String(c.id)}>
-                                            {c.name}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                        )}
-                    />
-                </CardContent>
-            </Card>
-
-            {/* Tags */}
-            <Card>
-                <CardHeader>
-                    <CardTitle>Mots-clés</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <div className="flex gap-2 mb-2">
-                        <Input
-                            placeholder="Ajouter un ou plusieurs tags (séparés par virgule)"
-                            onKeyDown={(e) => {
-                                const input = e.target as HTMLInputElement;
-                                if (e.key === "Enter" || e.key === ",") {
-                                    e.preventDefault();
-                                    input.value
-                                        .split(",")
-                                        .map((t) => t.trim())
-                                        .filter((t) => t.length > 0)
-                                        .forEach(handleAddTag);
-                                    input.value = "";
-                                }
-                            }}
-                        />
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                        {values.tags.map((tag) => (
-                            <Badge
-                                key={tag}
-                                variant="secondary"
-                                onClick={() => handleRemoveTag(tag)}
-                                className="cursor-pointer"
-                            >
-                                {tag} ✕
-                            </Badge>
-                        ))}
-                    </div>
-                </CardContent>
-            </Card>
-
-            {/* Contenu (sections) */}
-            <Card>
-                <CardHeader>
-                    <CardTitle>Contenu</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                    {fields.map((field, index) => (
-                        <div key={field.id} className="border p-4 rounded-md space-y-3">
-                            <Input
-                                placeholder="Titre de section"
-                                {...register(`content.sections.${index}.subtitle` as const)}
-                            />
-                            <Textarea
-                                placeholder="Texte de la section"
-                                {...register(`content.sections.${index}.text` as const)}
-                            />
-                            <TailwindUploadButton
-                                existingImage={field.image?.url ?? undefined} // <-- corrige ici aussi
-                                onSelectFile={async (file: File | null) => {
-                                    if (!file) {
-                                        setValue(`content.sections.${index}.image`, null, { shouldValidate: true });
-                                        return;
-                                    }
-
-
-                                    const formData = new FormData();
-                                    formData.append("file", file);
-                                    formData.append("folder", "Articles");
-
-                                    const res = await fetch("/api/admin/upload", { method: "POST", body: formData });
-                                    if (!res.ok) {
-                                        const errorData = await res.json().catch(() => null);
-                                        throw new Error(errorData?.message || "Échec de l'upload de l'image");
-                                    }
-
-                                    const data = await res.json();
-                                    setValue(`content.sections.${index}.image`, {
-                                        url: data.url ?? null,
-                                        publicId: data.public_id ?? null,  // ✅
-                                    }, { shouldValidate: true });
-                                }}
-                            />
-
-
-
-
-
-                            <Button
-                                type="button"
-                                variant="destructive"
-                                onClick={() => {
-                                    console.log("🗑️ Suppression section index:", index);
-                                    remove(index);
-                                }}
-                            >
-                                Supprimer section
-                            </Button>
-                        </div>
-                    ))}
-                    <Button
-                        type="button"
-                        onClick={() => {
-                            console.log("➕ Ajout nouvelle section");
-                            append({ subtitle: "", text: "", image: { url: null, publicId: null }, });
-                        }}
-                    >
-                        ➕ Ajouter une section
-                    </Button>
-                </CardContent>
-            </Card>
-
-            {/* Conclusion */}
-            <Card>
-                <CardHeader>
-                    <CardTitle>Conclusion</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <Textarea placeholder="Conclusion" {...register("conclusion")} />
-                </CardContent>
-            </Card>
-
-            {/* Publication */}
-            <Card>
-                <CardHeader>
-                    <CardTitle>Publication</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                    <Controller
-                        name="published"
-                        control={control}
-                        render={({ field }) => (
-                            <Select
-                                value={
-                                    field.value
-                                        ? "published"
-                                        : values.publishedAt
-                                            ? "scheduled"
-                                            : "draft"
-                                }
-                                onValueChange={(val: string) => {
-                                    console.log("📌 Changement publication:", val);
-                                    if (val === "published") {
-                                        field.onChange(true);
-                                        setValue("publishedAt", new Date());
-                                    } else if (val === "scheduled") {
-                                        field.onChange(false);
-                                        setValue(
-                                            "publishedAt",
-                                            values.publishedAt ?? new Date(Date.now() + 60 * 60 * 1000)
-                                        );
-                                    } else {
-                                        field.onChange(false);
-                                        setValue("publishedAt", null);
-                                    }
-                                    console.log("📅 Nouveau état:", {
-                                        published: field.value,
-                                        publishedAt: values.publishedAt,
-                                    });
-                                }}
-                            >
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Choisir un statut" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="draft">📝 Brouillon</SelectItem>
-                                    <SelectItem value="published">✅ Publier maintenant</SelectItem>
-                                    <SelectItem value="scheduled">⏰ Planifier une date</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        )}
-                    />
-
-                    {!values.published && values.publishedAt && (
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium text-gray-700">
-                                Date de publication
-                            </label>
-                            <Controller
-                                name="publishedAt"
-                                control={control}
-                                render={({ field }) => (
-                                    <Input
-                                        type="datetime-local"
-                                        value={field.value ? formatDateForInput(field.value) : ""}
-                                        onChange={(e) => {
-                                            const date = e.target.value ? new Date(e.target.value) : null;
-                                            field.onChange(date);
-                                        }}
-                                    />
-                                )}
-                            />
-
-                        </div>
-                    )}
-                </CardContent>
-            </Card>
-
-            {/* Submit */}
-            <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "Enregistrement..." : "Enregistrer"}
-            </Button>
-        </form>
-    );
+      <Button type="submit" disabled={formState.isSubmitting}>
+        {formState.isSubmitting ? "Enregistrement..." : "Enregistrer"}
+      </Button>
+    </form>
+  );
 }

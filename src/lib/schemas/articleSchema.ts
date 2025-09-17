@@ -1,18 +1,15 @@
 import { z } from "zod";
 
-// ⚡ on force le type final ici
+// ⚡ Preprocess pour convertir string/Date en Date | null
 const publishedAtSchema = z.preprocess(
   (val) => {
     if (!val) return null;
     if (val instanceof Date) return val;
-    if (typeof val === "string" && !isNaN(Date.parse(val))) {
-      return new Date(val);
-    }
+    if (typeof val === "string" && !isNaN(Date.parse(val))) return new Date(val);
     return null;
   },
   z.date().nullable()
-) as z.ZodType<Date | null>; // <-- important : on force explicitement le type
-// ------------------------------------------------------
+) as z.ZodType<Date | null>;
 
 export const articleFormSchema = z.object({
   id: z.number().optional(),
@@ -22,21 +19,23 @@ export const articleFormSchema = z.object({
   conclusion: z.string().min(10, "La conclusion est trop courte"),
   metaTitre: z.string().min(10, "Le meta titre est trop court"),
   metaDescription: z.string().min(10, "La meta description est trop courte"),
-  
-  // ✅ objet Cloudinary (cover image)
+
+  // ✅ Cover image : objet Cloudinary ou File
   coverImage: z
-    .object({
-      url: z.string().url("URL d’image invalide").nullable(),
-      publicId: z.string().nullable(),
-    })
-    .nullable()
+    .union([
+      z
+        .object({
+          url: z.string().url("URL d’image invalide").nullable(),
+          publicId: z.string().nullable(),
+        })
+        .nullable(),
+      z.instanceof(File),
+    ])
     .optional(),
 
   categoryId: z.union([z.number().int().positive(), z.literal("")]),
   tags: z.array(z.string().min(1, "Chaque tag doit avoir un nom")),
   published: z.boolean(),
-
-  // 🔥 ici ça sera bien `Date | null` et plus `unknown`
   publishedAt: publishedAtSchema,
 
   content: z.object({
@@ -44,17 +43,19 @@ export const articleFormSchema = z.object({
       .array(
         z.object({
           subtitle: z.string().min(1, "Le sous-titre est requis"),
-
-          // ✅ objet Cloudinary (image section)
-          image: z
-            .object({
-              url: z.string().url("L’image doit être une URL valide").nullable(),
-              publicId: z.string().nullable(),
-            })
-            .nullable(),
-
-
           text: z.string().min(1, "Le texte est requis"),
+          image: z
+            .union([
+              z
+                .object({
+                  url: z.string().url("L’image doit être une URL valide").nullable(),
+                  publicId: z.string().nullable(),
+                })
+                .nullable(),
+              z.instanceof(File),
+            ])
+            .nullable()
+            .optional(),
         })
       )
       .min(1, "Au moins une section est requise"),
@@ -62,13 +63,3 @@ export const articleFormSchema = z.object({
 });
 
 export type ArticleFormValues = z.infer<typeof articleFormSchema>;
-
-
-export type ArticleFormValuesWithFiles = ArticleFormValues & {
-  coverImageFile?: File | null;
-  content: {
-    sections: (ArticleFormValues["content"]["sections"][number] & {
-      imageFile?: File | null;
-    })[];
-  };
-};

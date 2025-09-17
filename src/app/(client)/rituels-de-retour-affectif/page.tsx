@@ -37,7 +37,7 @@ export default async function RetourAffectifPage() {
                   href={`/rituels/${article.slug}`}
                   className="block bg-white rounded-lg shadow hover:shadow-md transition duration-200 overflow-hidden"
                 >
-                  {article.coverImage && (
+                  {article.coverImage?.url && (
                     <Image
                       src={article.coverImage.url}
                       alt={article.title}

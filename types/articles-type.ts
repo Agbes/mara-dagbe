@@ -1,14 +1,16 @@
 import type { Prisma } from "@prisma/client";
 
 
+export type ImageValue = { url: string | null; publicId: string | null } | null;
+
 
 /**
  * Contenu JSON strict de l'article (stocké dans Article.content)
  */
 export type ArticleContent = {
   sections: {
-    subtitle: string;   // sous-titre de la section
-    image: { url: string; publicId: string } | null;
+    subtitle: string;
+    image: ImageValue;
     text: string;
   }[];
 };
@@ -76,10 +78,8 @@ export type ArticleDTO = {
   slug: string;
   title: string;
   description: string;
-  coverImage?: {
-    url: string;
-    publicId: string;
-  } | null;  content: ArticleContent;
+  coverImage?: ImageValue;
+  content: ArticleContent;
   conclusion: string;
   metaTitre: string;
   metaDescription: string;
@@ -127,9 +127,9 @@ export type ArticleFormValues = {
   coverImage?: {
     url: string;
     publicId: string;
-  } | null;  
-  categoryId: number | "";  
-  tags: string[];         
+  } | null;
+  categoryId: number | "";
+  tags: string[];
   published: boolean;
   conclusion: string;
   metaTitre: string;
@@ -207,5 +207,5 @@ export type ArticleSidebarDTO = {
   coverImage?: {
     url: string;
     publicId: string;
-  } | null;  
+  } | null;
 };

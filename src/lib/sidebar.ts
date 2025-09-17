@@ -31,7 +31,11 @@ export async function getSidebar(): Promise<SidebarData> {
   const tags = tagsRaw.sort(() => 0.5 - Math.random()).slice(0, 20);
 
   cachedSidebar = {
-    articles: articlesRaw.map(a => ({ title: a.title, slug: a.slug, coverImage: a.coverImage })),
+    articles: articlesRaw.map(a => ({
+      title: a.title,
+      slug: a.slug,
+      coverImage: (a.coverImage as any)?.url ?? null, // on récupère juste l'URL
+    })),
     categories,
     tags,
   };

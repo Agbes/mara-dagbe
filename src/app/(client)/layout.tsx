@@ -15,7 +15,7 @@ export default function ClientLayout({
         Guidance spirituelle avec Dagbé — <span className="font-semibold">profitez d’une séance d’essai gratuite</span> 🌙
       </div>
       <Header />
-      <main>{children}</main>
+      <main>      {children}</main>
       <Footer />
     </>
   );

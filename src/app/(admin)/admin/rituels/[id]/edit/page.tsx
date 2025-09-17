@@ -4,11 +4,13 @@ import EditArticlePage from "@/composantes/Admin/articles/edit/EditArticlePage";
 import { ArticleContent, ArticleDTO } from "../../../../../../../types/articles-type";
 
 type Props = {
-  params: Promise<{ slug: string }>; // params est une Promise
+  params: Promise<{ id: string }>; // params est une Promise
 };
 
 export default async function Page({ params }: Props) {
-  const { slug } = await params;
+  const { id } = await params; // ✅ on récupère l'id
+
+    const articleId = Number(id);
 
   const [categories, article] = await Promise.all([
     prisma.category.findMany({
@@ -16,7 +18,7 @@ export default async function Page({ params }: Props) {
       orderBy: { name: "asc" },
     }),
     prisma.article.findUnique({
-      where: { slug },
+      where: { id: articleId }, // ✅ recherche par id
       include: {
         category: { select: { id: true, name: true } },
         tagsArticles: {

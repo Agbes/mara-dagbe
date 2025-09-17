@@ -33,22 +33,15 @@ export default function RootLayout({
 }>) {
   return (
     <SessionWrappers>
-
-      <html lang="fr" className={`${geistMono.variable} h-full`}>
+      <html
+        lang="fr"
+        className={`${geistSans.variable} ${geistMono.variable}`}
+      >
         <GoogleTagManager gtmId="GTM-KSDX9JB8" />
-        <body className="flex flex-col min-h-screen bg-white text-slate-800 antialiased [--pad:clamp(1rem,3vw,2rem)]">
-          {/* Fond décoratif */}
-          <div className="pointer-events-none fixed inset-0 -z-10 bg-glow"></div>
-
-
-
-          {/* Contenu principal qui prend tout l’espace restant */}
-          <main className="flex-1">{children}</main>
-
-
+        <body className="text-slate-800 antialiased">
+          <div className="max-w-full overflow-x-hidden">{children}</div>
         </body>
       </html>
     </SessionWrappers>
-
   );
 }

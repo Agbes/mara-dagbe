@@ -38,7 +38,7 @@ export default async function JusticePage() {
                                     href={`/rituels/${article.slug}`}
                                     className="block bg-white rounded-lg shadow hover:shadow-md transition duration-200 overflow-hidden"
                                 >
-                                    {article.coverImage && (
+                                    {article.coverImage?.url && (
                                         <Image
                                             src={article.coverImage.url}
                                             alt={article.title}
@@ -47,6 +47,7 @@ export default async function JusticePage() {
                                             height={192}
                                         />
                                     )}
+
                                     <div className="p-4">
                                         <h2 className="text-xl font-semibold mb-2">{article.title}</h2>
                                         <p className="text-gray-600 text-sm mb-3">{article.description}</p>
@@ -83,8 +84,8 @@ export default async function JusticePage() {
                 </article>
             </BlogLayout>
             <script
-              type="application/ld+json"
-              dangerouslySetInnerHTML={{ __html: generateJSONLD(seoJustice) }}
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: generateJSONLD(seoJustice) }}
             />
         </>
     );

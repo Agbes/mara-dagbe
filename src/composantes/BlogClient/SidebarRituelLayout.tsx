@@ -33,7 +33,12 @@ export default async function SidebarRituelLayout() {
   const sidebarArticles: ArticleSidebarDTO[] = articles.map((a) => ({
     title: a.title,
     slug: a.slug,
-    coverImage: a.coverImage,
+      coverImage: a.coverImage?.url
+    ? {
+        url: a.coverImage.url,
+        publicId: a.coverImage.publicId ?? "",
+      }
+    : null,
   }));
 
   return (
