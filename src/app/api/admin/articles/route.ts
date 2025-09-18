@@ -55,6 +55,8 @@ export async function POST(req: Request) {
     const publishedAtRaw = formData.get("publishedAt") as string | null;
     const publishedAt = publishedAtRaw ? new Date(publishedAtRaw) : null;
 
+    console.log("slug reçu:", slug);
+
     // Cover image
     let coverImage: any = null;
     const coverFile = formData.get("coverImage");
@@ -92,6 +94,13 @@ export async function POST(req: Request) {
       console.warn("⚠️ [API POST] tags non fourni ou invalide, valeur reçue :", tagsArray);
     }
     // Save article
+
+    console.log({
+      slug,
+      title,
+      tagsArray
+    });
+
     const article = await prisma.article.create({
       data: {
         slug,
@@ -103,11 +112,11 @@ export async function POST(req: Request) {
         coverImage,
         content,
         tagsArticles: {
-          create: tagsArray.map((tagName: string) => ({
+          create: tagsArray.map((tagName: string,index) => ({
             tag: {
               connectOrCreate: {
                 where: { name: tagName },
-                create: { name: tagName, slug: slugify(tagName) },
+                create: { name: tagName, slug: `${slugify(tagName)}-${Date.now()}-${index}` },
               },
             },
           })),
@@ -131,6 +140,14 @@ export async function POST(req: Request) {
     return NextResponse.json(article, { status: 201 });
   } catch (error: any) {
     console.error("❌ Article creation error:", error);
-    return NextResponse.json({ message: error.message || "Internal Server Error" }, { status: 500 });
+
+    return NextResponse.json(
+      {
+        message: error instanceof Error ? error.message : String(error),
+        stack: process.env.NODE_ENV === "development" ? error.stack : undefined,
+      },
+      { status: 500 }
+    );
   }
+
 }

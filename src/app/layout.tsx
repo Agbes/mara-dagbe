@@ -16,14 +16,14 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-    title: "Marabout Dagbe",
-    description: "Puissant medium marabout Dagbe : +2290152027185",
-    icons: {
-        icon: "/Ali-moussa.png",
-    },
-    other: {
-        "google-site-verification": process.env.NEXT_PUBLIC_GOOGLE_CONSOLE || "",
-    },
+  title: "Marabout Dagbe",
+  description: "Puissant medium marabout Dagbe : +2290152027185",
+  icons: {
+    icon: "/Ali-moussa.png",
+  },
+  other: {
+    "google-site-verification": process.env.NEXT_PUBLIC_GOOGLE_CONSOLE || "",
+  },
 };
 
 export default function RootLayout({
@@ -39,7 +39,9 @@ export default function RootLayout({
       >
         <GoogleTagManager gtmId="GTM-KSDX9JB8" />
         <body className="text-slate-800 antialiased">
-          <div className="max-w-full overflow-x-hidden">{children}</div>
+          <div className="max-w-full overflow-x-hidden min-h-screen">
+            {children}
+          </div>
         </body>
       </html>
     </SessionWrappers>

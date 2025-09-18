@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,12 +7,6 @@ datasource db {
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
-        
-
-
-
-
-
 
 model User {
   name      String?
@@ -22,9 +15,9 @@ model User {
   updatedAt DateTime @updatedAt
   password  String
   id        Int      @id @default(autoincrement())
-  verifie   Boolean      @default(false)
-  token     String?  // pour confirmation email
-  superUser Boolean      @default(false)
+  verifie   Boolean  @default(false)
+  token     String?
+  superUser Boolean  @default(false)
 }
 
 model TemoignagesTexte {
@@ -70,7 +63,6 @@ model Article {
   slug            String       @unique
   title           String
   description     String
-  coverImage      Json?        // <== changement : Json pour stocker {url, publicId}
   content         Json
   published       Boolean      @default(false)
   publishedAt     DateTime?
@@ -80,6 +72,7 @@ model Article {
   conclusion      String       @default("Alors pour tous vos problemes, veuillez contacter le medium Ali Moussa")
   metaDescription String
   metaTitre       String
+  coverImage      Json?
   category        Category     @relation(fields: [categoryId], references: [id])
   tagsArticles    TagArticle[]
 
@@ -95,7 +88,6 @@ model TagArticle {
 
   @@id([articleId, tagId])
 }
-
 
 model Message {
   id        Int      @id @default(autoincrement())

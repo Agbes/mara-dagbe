@@ -51,7 +51,6 @@ export async function GET(
   }
 }
 
-
 // PUT /api/admin/articles/:id
 export async function PUT(
   req: NextRequest,
@@ -121,6 +120,7 @@ export async function PUT(
     // -------------------
     // Update Prisma
     // -------------------
+
     const article = await prisma.article.update({
       where: { id: articleId },
       data: {
@@ -136,12 +136,12 @@ export async function PUT(
         published,
         publishedAt,
         tagsArticles: {
-          deleteMany: {}, // supprime toutes les anciennes relations
-          create: tags.map((tagName: string) => ({
+          deleteMany: {},
+          create: tags.map((tagName: string,index) => ({
             tag: {
               connectOrCreate: {
                 where: { name: tagName },
-                create: { name: tagName, slug: slugify(tagName) },
+                create: { name: tagName, slug: `${slugify(tagName)}-${Date.now()}-${index}` },
               },
             },
           })),
@@ -165,8 +165,6 @@ export async function PUT(
     return NextResponse.json({ message: err.message || "Internal Server Error" }, { status: 500 });
   }
 }
-
-
 
 // ---------------------------
 // DELETE /api/admin/articles/:id
@@ -208,7 +206,7 @@ export async function DELETE(
     }
 
 
-        // Supprime d'abord les tags liés
+    // Supprime d'abord les tags liés
     await prisma.tagArticle.deleteMany({ where: { articleId: article.id } });
 
     // Supprime l'article

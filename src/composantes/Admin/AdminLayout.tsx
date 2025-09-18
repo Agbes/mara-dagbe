@@ -34,26 +34,26 @@ type MenuItem = {
 };
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  const { data: session, status } = useSession();
 
-    const { data: session, status } = useSession();
+  // ✅ Déclare toujours tes states au top, jamais après un return conditionnel
+  const [active, setActive] = useState("dashboard");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
-    // 🔹 Attente du chargement de la session
-    if (status === "loading") {
-        return (
-            <div className="flex items-center justify-center h-screen">
-                <p className="text-gray-600 animate-pulse">Chargement...</p>
-            </div>
-        );
-    }
+  // Ensuite seulement, tu fais tes conditions de rendu
+  if (status === "loading") {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p className="text-gray-600 animate-pulse">Chargement...</p>
+      </div>
+    );
+  }
 
-    // 🔹 Redirection si pas connecté ou pas superUser
-    if (!session || !session.user.superUser) {
-        redirect("/login");
-    }
+  if (!session || !session.user.superUser) {
+    redirect("/login");
+  }
 
-    const [active, setActive] = useState("dashboard");
-    const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
     const menuItems: MenuItem[] = [
         { id: "dashboard", label: "Tableau de bord", icon: LayoutDashboard, href: "/admin" },

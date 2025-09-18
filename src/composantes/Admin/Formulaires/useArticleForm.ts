@@ -13,16 +13,8 @@ import {
   ArticleFormValues,
 } from "@/lib/schemas/articleSchema";
 import { ArticleDTO } from "../../../../types/articles-type";
+import { slugify } from "@/lib/slugify";
 
-// ⚡ Slugify simple
-function slugify(str: string) {
-  return str
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)+/g, "");
-}
 
 // Valeurs par défaut
 function getDefaultValues(initialData?: ArticleDTO): ArticleFormValues {
