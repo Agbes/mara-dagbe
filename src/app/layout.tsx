@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   title: "Marabout Dagbe",
   description: "Puissant medium marabout Dagbe : +2290152027185",
   icons: {
-    icon: "/Ali-moussa.png",
+    icon: "/image/dagbe.jpg",
   },
   other: {
     "google-site-verification": process.env.NEXT_PUBLIC_GOOGLE_CONSOLE || "",
@@ -39,9 +39,10 @@ export default function RootLayout({
       >
         <GoogleTagManager gtmId="GTM-KSDX9JB8" />
         <body className="text-slate-800 antialiased">
-          <div className="max-w-full overflow-x-hidden min-h-screen">
+          <div className="w-full min-h-screen">
             {children}
           </div>
+
         </body>
       </html>
     </SessionWrappers>

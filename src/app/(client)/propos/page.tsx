@@ -13,7 +13,7 @@ export default function AboutPage() {
         {/* Header */}
         <header className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-extrabold text-slate-800 mb-4">
-            À propos de Maître Ali Moussa
+            À propos de Maître Puissant Marabout DAGBE
           </h1>
           <p className="text-lg text-slate-600 max-w-3xl mx-auto">
             Découvrez le parcours, l’expérience et la sagesse d’un grand maître
@@ -25,8 +25,8 @@ export default function AboutPage() {
         <section className="grid md:grid-cols-2 gap-10 items-center mb-20">
           <div>
             <Image
-              src="/images/ali-moussa.jpg"
-              alt="Maître Ali Moussa"
+              src="/image/dagbe.jpg"
+              alt="PUISSANT MARABOUT DAGBE"
               width={600}
               height={600}
               className="rounded-2xl shadow-lg object-cover w-full h-[400px]"
@@ -37,7 +37,7 @@ export default function AboutPage() {
               Un héritage spirituel ancestral
             </h2>
             <p className="text-slate-700 leading-relaxed mb-4">
-              Depuis plus de <strong>20 ans</strong>, Maître Ali Moussa pratique
+              Depuis plus de <strong>20 ans</strong>, Puissant Marabout Dagbe pratique
               et transmet des rituels puissants hérités de ses ancêtres. Sa
               réputation repose sur sa capacité à aider dans les domaines de
               l’amour, de la protection, de la justice, de la prospérité et du
@@ -68,7 +68,7 @@ export default function AboutPage() {
         {/* Valeurs */}
         <section className="mb-20">
           <h2 className="text-2xl font-bold text-cyan-700 mb-8 text-center">
-            Les valeurs de Maître Ali Moussa
+            Les valeurs du Puissant Marabout Dagbe
           </h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="bg-white shadow-md rounded-2xl p-6 text-center hover:shadow-lg transition">
@@ -101,7 +101,7 @@ export default function AboutPage() {
             Besoin d’une guidance spirituelle ?
           </h2>
           <p className="mb-6 text-white/90 max-w-2xl mx-auto">
-            Maître Ali Moussa vous propose une consultation confidentielle pour
+            Puissant Marabout Dagbe vous propose une consultation confidentielle pour
             répondre à vos besoins, que ce soit en amour, en protection, en
             chance, en prospérité ou en justice.
           </p>

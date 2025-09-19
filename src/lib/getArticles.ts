@@ -203,3 +203,28 @@ export async function getAllTagSlug(): Promise<{ slug: string }[]> {
 
     return tags.map((t) => ({ slug: t.slug }));
 }
+
+
+
+
+
+// lib/getArticles.ts
+export async function getLastRituels(): Promise<ArticleDTO[]> {
+  const articlesRaw: ArticleWithRelations[] = await prisma.article.findMany({
+    where: {
+      publishedAt: {
+        lte: new Date(), // seulement les articles déjà publiés
+      },
+    },
+    orderBy: { updatedAt: "desc" },
+    take: 6, // ⚡ seulement les 6 derniers
+    include: {
+      category: { select: { id: true, name: true, slug: true } },
+      tagsArticles: {
+        select: { tag: { select: { id: true, name: true, slug: true } }, assignedAt: true },
+      },
+    },
+  });
+
+  return articlesRaw.map(mapArticle);
+}

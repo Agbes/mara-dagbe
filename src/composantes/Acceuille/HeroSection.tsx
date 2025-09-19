@@ -4,7 +4,7 @@ export default function HeroSection() {
   return (
     <section
       id="accueil"
-      className="relative isolate overflow-hidden h-[90vh]" // <- pt-16 = hauteur du header
+      className="relative isolate" // <- pt-16 = hauteur du header
     >
       {/* Background image semi-transparent */}
       <div

@@ -3,7 +3,7 @@
 export default function AdminDashboard() {
     return (
         <main className="flex-1 p-3 overflow-y-auto">
-            <h2 className="text-3xl font-bold mb-6">Bienvenue Maître Ali Moussa ✨</h2>
+            <h2 className="text-3xl font-bold mb-6">Bienvenue Marabout Dagbe ✨</h2>
             <p className="text-lg text-gray-600 mb-8">
                 Depuis cet espace, vous avez le contrôle total de votre site :
                 gérez vos témoignages, vos articles, vos pages, vos consultations et vos

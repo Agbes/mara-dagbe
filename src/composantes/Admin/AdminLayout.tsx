@@ -92,7 +92,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                     }`}
             >
                 <div className="p-6 text-center border-b border-cyan-700 flex justify-between items-center">
-                    <h1 className="text-xl font-bold">⚡ Admin Moussa</h1>
+                    <h1 className="text-xl font-bold">⚡ Admin Marabout DAGBE</h1>
                     <button className="lg:hidden text-white" onClick={() => setSidebarOpen(false)}>
                         <X className="w-6 h-6" />
                     </button>

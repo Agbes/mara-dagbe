@@ -53,7 +53,7 @@ export default async function GaleriPage() {
         <article className="lg:col-span-3 space-y-10">
           <div className="container mx-auto px-4 py-8">
             <h1 className="text-3xl font-bold mb-6 text-center">
-              La galerie des rituels du Medium Ali Moussa
+              La galerie des rituels du Puissant Marabout DAGBE
             </h1>
 
             {/* Masonry Grid */}

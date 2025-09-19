@@ -9,31 +9,42 @@ export default function RituelsSection() {
   ];
 
   return (
-    <section id="rituels" className="py-20">
-      <div className="max-w-7xl mx-auto px-[--pad]">
+    <section id="rituels" className="py-20 bg-gradient-to-b from-gray-50 to-white">
+      <div className="max-w-7xl mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="fade-in">
-            <h2 className="font-display text-3xl sm:text-4xl mb-4">
-              Rituels puissants pour <span className="text-brand-700 font-bold text-emerald-500">l’amour, la richesse et la chance</span>
+          
+          {/* Texte et cards */}
+          <div className="fade-in space-y-6">
+            <h2 className="font-display text-3xl sm:text-4xl font-extrabold leading-tight">
+              Rituels puissants pour{" "}
+              <span className="text-emerald-500 font-bold">
+                l’amour, la richesse et la chance
+              </span>
             </h2>
-            <p className="text-slate-600 leading-relaxed mb-6">
+            <p className="text-slate-600 text-lg leading-relaxed">
               Chaque rituel est personnalisé selon vos besoins et objectifs. Marabout Dagbe utilise son savoir ancestral pour transformer votre vie rapidement et efficacement.
             </p>
-            <ul className="grid sm:grid-cols-2 gap-4">
+
+            {/* Cards des rituels */}
+            <ul className="grid sm:grid-cols-2 gap-6">
               {rituels.map((r) => (
-                <li key={r.title} className="rounded-2xl border border-slate-200 p-5 shadow-soft bg-white">
-                  <h3 className="font-semibold mb-1">{r.title}</h3>
-                  <p className="text-sm text-slate-600">{r.desc}</p>
+                <li key={r.title} className="rounded-3xl border border-slate-200 p-6 shadow-lg bg-white hover:shadow-2xl transition-shadow duration-300">
+                  <h3 className="font-semibold text-lg mb-2">{r.title}</h3>
+                  <p className="text-slate-600 text-sm">{r.desc}</p>
                 </li>
               ))}
             </ul>
           </div>
-          <div className="relative h-[420px] rounded-3xl overflow-hidden shadow-soft">
+
+          {/* Image côté droit */}
+          <div className="relative h-[420px] rounded-3xl overflow-hidden shadow-lg">
             <img
-              className="absolute inset-0 w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-cover transform hover:scale-105 transition-transform duration-500"
               src="/image/dagbe.jpg"
               alt="Rituel mystique marabout Dagbe"
             />
+            {/* Overlay subtil pour effet mystique */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
           </div>
         </div>
       </div>
