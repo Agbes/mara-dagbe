@@ -149,8 +149,9 @@ export async function getAllTag(): Promise<TagDTO[]> {
             id: true,
             name: true,
             slug: true,
-            createdAt: true, // 🔹 obligatoire pour TagDTO
-            tagsArticles: { select: { articleId: true } }, // facultatif
+            createdAt: true,
+            updatedAt: true,
+            tagsArticles: { select: { articleId: true } },
         },
     });
 
@@ -159,6 +160,7 @@ export async function getAllTag(): Promise<TagDTO[]> {
         name: tag.name,
         slug: tag.slug,
         createdAt: tag.createdAt.toISOString(),
+        updatedAt: tag.updatedAt.toISOString(),
         articleCount: tag.tagsArticles.length,
     }));
 }
@@ -173,6 +175,7 @@ export async function getAllCategory(): Promise<CategoryDTO[]> {  // Updated ret
             name: true,
             slug: true,
             createdAt: true,
+            updatedAt: true,
         },
     });
 
@@ -181,6 +184,7 @@ export async function getAllCategory(): Promise<CategoryDTO[]> {  // Updated ret
         name: category.name,
         slug: category.slug,
         createdAt: category.createdAt.toISOString(),
+        updatedAt: category.updatedAt.toISOString(),
     }));
 }
 
@@ -210,21 +214,21 @@ export async function getAllTagSlug(): Promise<{ slug: string }[]> {
 
 // lib/getArticles.ts
 export async function getLastRituels(): Promise<ArticleDTO[]> {
-  const articlesRaw: ArticleWithRelations[] = await prisma.article.findMany({
-    where: {
-      publishedAt: {
-        lte: new Date(), // seulement les articles déjà publiés
-      },
-    },
-    orderBy: { updatedAt: "desc" },
-    take: 6, // ⚡ seulement les 6 derniers
-    include: {
-      category: { select: { id: true, name: true, slug: true } },
-      tagsArticles: {
-        select: { tag: { select: { id: true, name: true, slug: true } }, assignedAt: true },
-      },
-    },
-  });
+    const articlesRaw: ArticleWithRelations[] = await prisma.article.findMany({
+        where: {
+            publishedAt: {
+                lte: new Date(), // seulement les articles déjà publiés
+            },
+        },
+        orderBy: { updatedAt: "desc" },
+        take: 6, // ⚡ seulement les 6 derniers
+        include: {
+            category: { select: { id: true, name: true, slug: true } },
+            tagsArticles: {
+                select: { tag: { select: { id: true, name: true, slug: true } }, assignedAt: true },
+            },
+        },
+    });
 
-  return articlesRaw.map(mapArticle);
+    return articlesRaw.map(mapArticle);
 }

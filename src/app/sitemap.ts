@@ -17,14 +17,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const urlCategories: MetadataRoute.Sitemap = categories.map((c) => ({
     url: `${baseUrl}/categories/${c.slug}`,
-    lastModified: c.createdAt || new Date(),
+    lastModified: c.updatedAt || new Date(),
     changeFrequency: "daily",
     priority: 0.7,
   }));
 
   const urlTags: MetadataRoute.Sitemap = tags.map((t) => ({
     url: `${baseUrl}/tag/${t.slug}`,
-    lastModified: t.createdAt || new Date(),
+    lastModified: t.updatedAt || new Date(),
     changeFrequency: "daily",
     priority: 0.6,
   }));

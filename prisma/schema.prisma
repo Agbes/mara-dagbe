@@ -44,7 +44,7 @@ model Category {
   createdAt DateTime  @default(now())
   slug      String    @unique
   articles  Article[]
-
+updatedAt DateTime @updatedAt @default(now())
   @@index([slug])
 }
 
@@ -54,6 +54,7 @@ model Tag {
   createdAt    DateTime     @default(now())
   slug         String       @unique
   tagsArticles TagArticle[]
+updatedAt DateTime @updatedAt @default(now())
 
   @@index([slug])
 }

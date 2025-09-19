@@ -153,6 +153,7 @@ export type CategoryDTO = {
   name: string;
   slug: string;
   createdAt: string;
+  updatedAt:string;
 };
 
 /**
@@ -163,6 +164,7 @@ export type TagDTO = {
   name: string;
   slug: string;
   createdAt: string;
+  updatedAt:string;
 };
 
 
