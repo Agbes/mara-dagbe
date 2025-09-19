@@ -20,7 +20,7 @@ export default function DerniersRituelsSection({ rituels }: Props) {
           {rituels.map((rituel) => (
             <Link
               key={rituel.id}
-              href={`/articles/${rituel.slug}`}
+              href={`/rituels/${rituel.slug}`}
               className="group relative block rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300"
             >
               {/* Image cover */}
