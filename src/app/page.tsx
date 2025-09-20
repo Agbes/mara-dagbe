@@ -9,13 +9,14 @@ import ReservationSection from "@/composantes/Acceuille/ReservationSection";
 import DerniersRituelsSection from "@/composantes/Acceuille/DerniersRituelsSection";
 import { ArticleDTO } from "../../types/articles-type";
 import { getLastRituels } from "@/lib/getArticles";
+import ContactArticle from "@/composantes/ContactArticle";
 
 
 export const revalidate = 60;
 
 
 export default async function Home() {
-    const derniersRituels: ArticleDTO[] = await getLastRituels();
+  const derniersRituels: ArticleDTO[] = await getLastRituels();
 
   return (
     <>
@@ -30,6 +31,8 @@ export default async function Home() {
       <TarifsSection />
       <TemoignagesSection />
       <ReservationSection />
+      <ContactArticle />
+
       <Footer />
     </>
   );

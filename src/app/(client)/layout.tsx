@@ -1,5 +1,6 @@
 import Footer from "@/composantes/Acceuille/Footer";
 import Header from "@/composantes/Acceuille/Header";
+import ContactArticle from "@/composantes/ContactArticle";
 
 
 
@@ -16,6 +17,8 @@ export default function ClientLayout({
       </div>
       <Header />
       <main>      {children}</main>
+      <ContactArticle />
+
       <Footer />
     </>
   );

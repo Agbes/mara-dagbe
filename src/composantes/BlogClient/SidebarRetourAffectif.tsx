@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArticleSidebarDTO } from "../../../types/articles-type";
+import ContactArticle from "../ContactArticle";
 
 type CategoryDTO = {
   id: number;
@@ -110,6 +111,8 @@ export default async function SidebarRituel({
           Je contacte Maître Dage
         </Link>
       </div>
+      <ContactArticle />
+
     </aside>
   );
 }
