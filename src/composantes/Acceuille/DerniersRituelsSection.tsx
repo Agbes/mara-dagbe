@@ -1,5 +1,7 @@
 // composantes/Acceuille/DerniersRituelsSection.tsx
 
+// composantes/Acceuille/DerniersRituelsSection.tsx
+
 import Link from "next/link";
 import Image from "next/image";
 import { ArticleDTO } from "../../../types/articles-type";
@@ -13,9 +15,10 @@ export default function DerniersRituelsSection({ rituels }: Props) {
     <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
       <div className="max-w-7xl mx-auto px-6">
         <h2 className="text-3xl sm:text-4xl font-extrabold text-center mb-12 text-gray-800">
-          ✨ Derniers Rituels avec un resultats en 24H
+          ✨ Derniers Rituels avec un résultats en 24H
         </h2>
 
+        {/* Grille des derniers rituels */}
         <div className="grid gap-8 md:grid-cols-3">
           {rituels.map((rituel) => (
             <Link
@@ -23,7 +26,6 @@ export default function DerniersRituelsSection({ rituels }: Props) {
               href={`/rituels/${rituel.slug}`}
               className="group relative block rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300"
             >
-              {/* Image cover */}
               {rituel.coverImage?.url ? (
                 <Image
                   src={rituel.coverImage.url}
@@ -38,7 +40,6 @@ export default function DerniersRituelsSection({ rituels }: Props) {
                 </div>
               )}
 
-              {/* Overlay dégradé + texte */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent p-6 flex flex-col justify-end">
                 <h3 className="text-xl font-bold text-white mb-1 line-clamp-2">
                   {rituel.title}
@@ -53,11 +54,20 @@ export default function DerniersRituelsSection({ rituels }: Props) {
             </Link>
           ))}
         </div>
+
+        {/* Lien magique pour voir tous les rituels */}
+        <div className="mt-12 text-center">
+          <Link
+            href="/rituels"
+            className="inline-block px-8 py-4 text-lg font-semibold rounded-full bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 text-white shadow-lg hover:shadow-2xl hover:scale-105 transform transition-all duration-300"
+          >
+            🔮 Découvrir tous les rituels
+          </Link>
+        </div>
       </div>
     </section>
   );
 }
-
 
 
 
