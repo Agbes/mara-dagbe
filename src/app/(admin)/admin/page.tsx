@@ -1,6 +1,24 @@
 "use client";
 
+import { useState, useEffect } from "react";
+
 export default function AdminDashboard() {
+    const [sitemapCount, setSitemapCount] = useState<number | null>(null);
+
+    useEffect(() => {
+        async function fetchSitemapCount() {
+            try {
+                const res = await fetch("/api/sitemap-count");
+                const data = await res.json();
+                setSitemapCount(data.count);
+            } catch (err) {
+                console.error("Erreur en récupérant le sitemap:", err);
+            }
+        }
+
+        fetchSitemapCount();
+    }, []);
+
     return (
         <main className="flex-1 p-3 overflow-y-auto">
             <h2 className="text-3xl font-bold mb-6">Bienvenue Marabout Dagbe ✨</h2>
@@ -10,8 +28,16 @@ export default function AdminDashboard() {
                 messages. Utilisez le menu à gauche pour naviguer facilement.
             </p>
 
-            {/* Exemple widgets */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {/* Exemple : Sitemap */}
+                <div className="bg-white p-6 rounded-2xl shadow-md">
+                    <h3 className="text-xl font-bold mb-2">🗺️ Sitemap URLs</h3>
+                    <p className="text-gray-600">
+                        {sitemapCount !== null
+                            ? `${sitemapCount} URLs`
+                            : "Chargement..."}
+                    </p>
+                </div>
                 {/* Messages */}
                 <div className="bg-white p-6 rounded-2xl shadow-md">
                     <h3 className="text-xl font-bold mb-2">📩 Messages reçus</h3>
@@ -52,12 +78,6 @@ export default function AdminDashboard() {
                 <div className="bg-white p-6 rounded-2xl shadow-md">
                     <h3 className="text-xl font-bold mb-2">📂 Catégories</h3>
                     <p className="text-gray-600">6 catégories</p>
-                </div>
-
-                {/* Utilisateurs inscrits */}
-                <div className="bg-white p-6 rounded-2xl shadow-md">
-                    <h3 className="text-xl font-bold mb-2">👥 Utilisateurs</h3>
-                    <p className="text-gray-600">128 inscrits</p>
                 </div>
 
                 {/* Performance globale */}
