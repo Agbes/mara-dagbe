@@ -2,7 +2,7 @@
 import type { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
-    const baseUrl = process.env.SITE_URL || 'https://mara-dagbe.vercel.app';
+    const baseUrl = process.env.NEXT_PUBLIC_URL_SITE_BASE || 'https://mara-dagbe.vercel.app/';
 
   return {
     rules: [
@@ -12,6 +12,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/admin"],
       },
     ],
-    sitemap: `${baseUrl}/sitemap.xml`,
+    sitemap: `${baseUrl}sitemap.xml`,
   };
 }
