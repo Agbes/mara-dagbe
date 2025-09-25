@@ -31,7 +31,7 @@ export default function DataTable<
   data,
   columns,
   emptyMessage = "Aucune donnée disponible.",
-  pageSize = 5,
+  pageSize = 500,
   searchable = true,
 }: DataTableProps<T>) {
   const [page, setPage] = useState(1);
