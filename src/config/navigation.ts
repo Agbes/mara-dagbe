@@ -1,10 +1,11 @@
 export const navLinks = [
   { href: "/rituels", label: "Rituels" },
-  { href: "/rituels-de-retour-affectif", label: "Retour Affectif" },
+  { href: "/rituels-de-retour-affectif", label: "Affection" },
   { href: "/rituels-de-richesse", label: "Richesse" },
   { href: "/rituels-envoutements", label: "Envoutement" },
-  { href: "/affaire-de-justice", label: "Affaire de Justice" },
+  { href: "/rituels-affaire-de-justice", label: "Justice" },
   { href: "/galerie", label: "Galerie" },
+  { href: "/propos", label: "A propos" },
 ];
 
 export const actions = [
