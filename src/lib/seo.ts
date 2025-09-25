@@ -75,7 +75,7 @@ export function generateStaticMetadata({
   const ogType = type === "Article" ? "article" : "website";
 
   return {
-
+    metadataBase: new URL(siteConfig.url),
     title: `${title} | ${siteConfig.name}`,
     description,
     keywords: enrichedKeywords,

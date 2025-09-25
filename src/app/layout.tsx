@@ -16,6 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_URL_SITE_BASE || "https://mara-dagbe.vercel.app"),
   title: "Marabout Dagbe",
   description: "Puissant medium marabout Dagbe : +2290152027185",
   icons: {

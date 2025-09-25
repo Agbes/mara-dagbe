@@ -43,7 +43,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/affaire-justice`,
+      url: `${baseUrl}/rituels-affaire-de-justice`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.5,
@@ -55,13 +55,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.5,
     },
     {
-      url: `${baseUrl}/retour-affectif`,
+      url: `${baseUrl}/rituels-de-retour-affectif`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.5,
     },
     {
-      url: `${baseUrl}/envoutements`,
+      url: `${baseUrl}/rituels-envoutements`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.5,
@@ -79,7 +79,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.5,
     },
     {
-      url: `${baseUrl}/temoignages`,
+      url: `${baseUrl}/rituels-de-richesse`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.5,
