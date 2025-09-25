@@ -2,7 +2,7 @@ import prisma from "@/lib/prisma";
 import { ArticleContent, ArticleDTO, ImageValue, mapArticle } from "../../../../../types/articles-type";
 import { NextRequest, NextResponse } from "next/server";
 import { v2 as cloudinary } from "cloudinary";
-import { slugify } from "@/lib/slugify";
+import { generateSlug, slugify } from "@/lib/slugify";
 
 
 // ➡️ GET /api/articles
@@ -116,7 +116,7 @@ export async function POST(req: Request) {
             tag: {
               connectOrCreate: {
                 where: { name: tagName },
-                create: { name: tagName, slug: `${slugify(tagName)}-${Date.now()}-${index}` },
+                create: { name: tagName, slug: generateSlug(tagName, true), },
               },
             },
           })),

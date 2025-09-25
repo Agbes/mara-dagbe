@@ -9,3 +9,16 @@ export function slugify(text: string): string {
     .replace(/--+/g, "-")
     .replace(/^-+|-+$/g, "");
 }
+
+
+import { customAlphabet } from "nanoid";
+
+// alphabet : lettres + chiffres, longueur 6
+const nanoid = customAlphabet("abcdefghijklmnopqrstuvwxyz0123456789", 6);
+
+export function generateSlug(text: string, forceUnique = false): string {
+  const baseSlug = slugify(text);
+
+  // si forceUnique = true → on rajoute un identifiant court
+  return forceUnique ? `${baseSlug}-${nanoid()}` : baseSlug;
+}
