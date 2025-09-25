@@ -1,7 +1,7 @@
 import prisma from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { v2 as cloudinary } from "cloudinary";
-import { generateSlug } from "@/lib/slugify";
+import { slugify } from "@/lib/slugify";
 
 // Cloudinary config
 cloudinary.config({
@@ -141,7 +141,7 @@ export async function PUT(
             tag: {
               connectOrCreate: {
                 where: { name: tagName },
-                create: { name: tagName, slug: generateSlug(tagName, true), },
+                create: { name: tagName, slug: `${slugify(tagName)}-${Date.now()}-${index}` },
               },
             },
           })),

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { generateSlug } from "@/lib/slugify";
+import { slugify } from "@/lib/slugify";
 
 // GET: liste toutes les catégories
 export async function GET() {
@@ -28,7 +28,7 @@ export async function POST(req: Request) {
     const tag = await prisma.tag.create({ 
             data: {
               name,
-              slug: generateSlug(name,true), 
+              slug: slugify(name), 
             },
      });
 

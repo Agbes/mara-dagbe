@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { generateSlug } from "@/lib/slugify";
+import { slugify } from "@/lib/slugify";
 
 // GET: un seul tag
 export async function GET(
@@ -39,7 +39,7 @@ export async function PUT(
       where: { id: Number(id) },
       data: {
         name,
-              slug: generateSlug(name,true), 
+        slug: slugify(name),
       },
     });
 
