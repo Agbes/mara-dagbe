@@ -38,7 +38,7 @@ export default function RootLayout({
         lang="fr"
         className={`${geistSans.variable} ${geistMono.variable}`}
       >
-        <GoogleTagManager gtmId="GTM-KSDX9JB8" />
+        {/* <GoogleTagManager gtmId="GTM-KSDX9JB8" /> */}
         <body className="text-slate-800 antialiased">
           <div className="w-full min-h-screen">
             {children}
