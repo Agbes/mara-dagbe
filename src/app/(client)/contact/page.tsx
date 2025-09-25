@@ -3,6 +3,9 @@ import { generateJSONLD, generateStaticMetadata } from "@/lib/seo";
 import { seoContact } from "@/data/seoData";
 import ContactForm from "@/composantes/ContactForm";
 
+
+export const revalidate = 60;
+
 export const metadata = generateStaticMetadata(seoContact);
 
 export default function ContactPage() {

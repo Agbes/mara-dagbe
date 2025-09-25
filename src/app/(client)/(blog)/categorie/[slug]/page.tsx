@@ -6,7 +6,6 @@ import Head from "next/head";
 
 import { content } from "@/lib/getContentPage";
 import { generateMetadataCategory, seoPropsFromCategoryDynamic } from "@/lib/seo";
-import { getAllCategorySlug } from "@/lib/getArticles";
 import BlogLayout from "@/composantes/Admin/BlogLayout";
 import { JsonLD } from "@/composantes/JsonLD";
 

@@ -4,6 +4,9 @@ import Link from "next/link";
 import { generateJSONLD, generateStaticMetadata } from "@/lib/seo";
 import { seoPropos } from "@/data/seoData";
 
+
+export const revalidate = 60;
+
 export const metadata = generateStaticMetadata(seoPropos);
 
 export default function AboutPage() {

@@ -10,6 +10,7 @@ import { seoRetourAffectif } from "@/data/seoData";
 import { redirect } from "next/navigation";
 import BlogLayout from "@/composantes/Admin/BlogLayout";
 
+export const revalidate = 60;
 
 export const metadata = generateStaticMetadata(seoRetourAffectif);
 export default async function RetourAffectifPage() {

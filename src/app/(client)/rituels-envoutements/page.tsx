@@ -3,7 +3,7 @@ import { contentEnvoutement } from "@/lib/getContentPage";
 import Link from "next/link";
 import Image from "next/image";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 
 import { generateJSONLD, generateStaticMetadata } from "@/lib/seo";
