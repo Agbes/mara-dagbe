@@ -1,8 +1,8 @@
 import prisma from "@/lib/prisma";
-import { ArticleContent, ArticleDTO, ImageValue, mapArticle } from "../../../../../types/articles-type";
-import { NextRequest, NextResponse } from "next/server";
+import { mapArticle } from "../../../../../types/articles-type";
+import { NextResponse } from "next/server";
 import { v2 as cloudinary } from "cloudinary";
-import { generateSlug, slugify } from "@/lib/slugify";
+import { generateSlug} from "@/lib/slugify";
 
 
 // ➡️ GET /api/articles

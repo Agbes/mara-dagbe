@@ -1,3 +1,5 @@
+import { customAlphabet } from "nanoid";
+
 // lib/slugify.ts
 export function slugify(text: string): string {
   return text
@@ -11,7 +13,6 @@ export function slugify(text: string): string {
 }
 
 
-import { customAlphabet } from "nanoid";
 
 // alphabet : lettres + chiffres, longueur 6
 const nanoid = customAlphabet("abcdefghijklmnopqrstuvwxyz0123456789", 6);

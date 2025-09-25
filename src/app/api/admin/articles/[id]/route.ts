@@ -1,13 +1,13 @@
 import prisma from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { v2 as cloudinary } from "cloudinary";
-import { slugify } from "@/lib/slugify";
+import { generateSlug } from "@/lib/slugify";
 
 // Cloudinary config
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
-  api_key: process.env.CLOUDINARY_API_KEY!,
-  api_secret: process.env.CLOUDINARY_API_SECRET!,
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 // Helper upload
@@ -141,7 +141,7 @@ export async function PUT(
             tag: {
               connectOrCreate: {
                 where: { name: tagName },
-                create: { name: tagName, slug: `${slugify(tagName)}-${Date.now()}-${index}` },
+                create: { name: tagName, slug: generateSlug(tagName, true), },
               },
             },
           })),
