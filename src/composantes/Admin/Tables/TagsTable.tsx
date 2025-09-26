@@ -23,7 +23,7 @@ export default function TagTable({
   return (
     <DataTable
       data={data}
-      pageSize={5}
+      pageSize={500} // Augmentation de pageSize pour afficher plus de lignes si besoin
       searchable
       columns={[
         { key: "id", label: "ID", sortable: true },
